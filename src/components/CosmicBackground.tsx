@@ -34,10 +34,10 @@ export default function CosmicBackground() {
     const createParticle = (): Particle => ({
       x: Math.random() * canvas.width,
       y: Math.random() * canvas.height,
-      size: Math.random() * 2 + 0.5,
+      size: Math.random() * 3 + 1,
       speedX: Math.random() * 0.5 - 0.25,
       speedY: Math.random() * 0.5 - 0.25,
-      opacity: Math.random() * 0.5 + 0.2,
+      opacity: Math.random() * 0.6 + 0.4,
     });
 
     // Update particle
@@ -54,14 +54,35 @@ export default function CosmicBackground() {
 
     // Draw particle
     const drawParticle = (particle: Particle) => {
+      // Draw main particle
       ctx.fillStyle = `rgba(124, 58, 237, ${particle.opacity})`;
       ctx.beginPath();
       ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
       ctx.fill();
+
+      // Add glow effect
+      const gradient = ctx.createRadialGradient(
+        particle.x,
+        particle.y,
+        0,
+        particle.x,
+        particle.y,
+        particle.size * 3
+      );
+      gradient.addColorStop(0, `rgba(124, 58, 237, ${particle.opacity * 0.3})`);
+      gradient.addColorStop(
+        0.5,
+        `rgba(124, 58, 237, ${particle.opacity * 0.1})`
+      );
+      gradient.addColorStop(1, "rgba(124, 58, 237, 0)");
+      ctx.fillStyle = gradient;
+      ctx.beginPath();
+      ctx.arc(particle.x, particle.y, particle.size * 3, 0, Math.PI * 2);
+      ctx.fill();
     };
 
     // Create particles
-    const particleCount = 100;
+    const particleCount = 200;
     const particles: Particle[] = [];
     for (let i = 0; i < particleCount; i++) {
       particles.push(createParticle());
@@ -91,7 +112,7 @@ export default function CosmicBackground() {
   return (
     <canvas
       ref={canvasRef}
-      className="fixed inset-0 pointer-events-none z-0 opacity-40"
+      className="fixed inset-0 pointer-events-none z-0 opacity-70"
       style={{ mixBlendMode: "screen" }}
     />
   );
