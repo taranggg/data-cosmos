@@ -18,7 +18,7 @@ export default function ServiceModelsSection() {
       badge: "DEDICATED TEAM",
       title: "Product Engineering Teams",
       description:
-        "This is a specialized, self-sufficient team made up of various roles. They are equipped to deliver technology solutions quickly and effectively. Roles are tailored to each specific project, with management shared between a Scrum Master and the client's product owner.",
+        "A full cross-functional team that becomes your product engine — focused on delivery, ownership and long-term product velocity.",
       features: [
         "Agile processes incorporated",
         "Monthly billing",
@@ -32,7 +32,7 @@ export default function ServiceModelsSection() {
       badge: "TEAM AUGMENTATION",
       title: "Team Extension",
       description:
-        "Team augmentation is suitable for businesses and projects of all sizes, allowing you to fill talent gaps by adding the necessary expertise to your team. The augmented team members integrate seamlessly with your team, participating in regular meetings.",
+        "Rapidly plug in vetted engineers and specialists who integrate with your processes and ramp fast.",
       features: [
         "Scale on-demand quickly",
         "Cost-effective staffing",
@@ -46,7 +46,7 @@ export default function ServiceModelsSection() {
       badge: "PROJECT-BASED",
       title: "Small to Mid-Scale Projects",
       description:
-        "We offer flexible pricing models tailored to your project needs. Choose between Fixed Price for well-defined projects or Time & Material for evolving scopes and complex business needs.",
+        "Delivery-focused engagements for clearly scoped work — choose Fixed Price or Time & Material depending on your needs.",
       features: [
         "Fixed Price Model for clear scope",
         "Time & Material for flexible scope",
@@ -64,8 +64,8 @@ export default function ServiceModelsSection() {
       className="py-32 px-6 relative overflow-hidden bg-cosmic-darker"
     >
       <div className="relative z-10 max-w-7xl mx-auto">
-        <SectionTitle subtitle="Flexible engagement models designed for your success">
-          Our Service Models
+        <SectionTitle subtitle="Flexible engagement to match your stage — pilot, scale or enterprise transformation.">
+          Service Models
         </SectionTitle>
 
         <div className="space-y-8">
@@ -114,6 +114,28 @@ export default function ServiceModelsSection() {
                         <span className="text-cosmic-light/70">{feature}</span>
                       </motion.div>
                     ))}
+                  </div>
+
+                  {/* CTA & small KPIs */}
+                  <div className="mt-6 flex items-center gap-4 flex-wrap">
+                    <a
+                      href="#contact"
+                      className="inline-flex items-center gap-2 px-4 py-2 rounded-lg font-semibold text-sm bg-gradient-to-r from-cosmic-violet to-cosmic-cyan text-white shadow-md hover:scale-[1.02] transition-transform"
+                    >
+                      Talk to us
+                    </a>
+
+                    <div className="flex items-center gap-3 text-sm text-cosmic-light/70">
+                      <span className="px-2 py-1 rounded-full bg-white/5">
+                        Ramp: 1-3w
+                      </span>
+                      <span className="px-2 py-1 rounded-full bg-white/5">
+                        Billing: Monthly
+                      </span>
+                      <span className="px-2 py-1 rounded-full bg-white/5">
+                        SLA: Available
+                      </span>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -167,6 +189,33 @@ export default function ServiceModelsSection() {
             </h4>
             <p className="text-sm text-cosmic-light/60">No hidden costs</p>
           </motion.div>
+        </div>
+
+        {/* Why choose block (data taken from shared screenshots) */}
+        <div className="mt-16 bg-transparent">
+          <h4 className="text-xl font-heading font-semibold text-cosmic-light mb-4">
+            Why choose DataCosmos for platform engineering
+          </h4>
+
+          <ul className="list-disc pl-5 space-y-3 text-cosmic-light/70 mb-6">
+            <li>Proven cloud-native patterns for cost-efficient scale</li>
+            <li>Production-focused ML & data ops with governance baked in</li>
+            <li>
+              WhatsApp-first and field-ready integrations for real-world
+              adoption
+            </li>
+            <li>
+              Flexible delivery: embedded teams, augmentation, or managed
+              operations
+            </li>
+          </ul>
+
+          <a
+            href="#contact"
+            className="inline-flex items-center gap-3 px-5 py-3 rounded-lg bg-gradient-to-r from-cosmic-violet to-cosmic-cyan text-white font-semibold shadow-lg hover:scale-[1.01] transition-transform"
+          >
+            Discuss platform needs →
+          </a>
         </div>
       </div>
     </section>

@@ -85,13 +85,32 @@ export default function ContactSection() {
             {/* Image/Illustration */}
             <div className="glass-card rounded-3xl p-8 aspect-square flex items-center justify-center">
               <div className="text-center">
-                <div className="text-9xl mb-6">📧</div>
+                <div className="text-8xl mb-4">📧</div>
                 <p className="text-2xl font-heading font-semibold text-cosmic-light mb-2">
                   We&apos;re Here to Help
                 </p>
-                <p className="text-cosmic-light/70">
+                <p className="text-cosmic-light/70 mb-4">
                   Reach out and let&apos;s build something amazing together
                 </p>
+
+                <div className="mt-2 flex items-center justify-center gap-3">
+                  <a
+                    href="#"
+                    onClick={(e) => e.preventDefault()}
+                    className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-white/6 text-cosmic-light hover:bg-white/8 transition"
+                    aria-label="Book a call"
+                  >
+                    Book a call
+                  </a>
+
+                  <a
+                    href="mailto:hello@datacosmos.in"
+                    className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-gradient-to-r from-cosmic-violet to-cosmic-cyan text-white"
+                    aria-label="Email us"
+                  >
+                    Email Us
+                  </a>
+                </div>
               </div>
             </div>
 
@@ -282,3 +301,9 @@ export default function ContactSection() {
     </section>
   );
 }
+
+/*
+  Notes/TODO:
+  - The form currently simulates submission. Replace the simulated block in handleSubmit with a real API POST to your contact endpoint (e.g. /api/contact) and handle errors.
+  - Optionally integrate a booking link (Calendly) for the "Book a call" CTA.
+*/

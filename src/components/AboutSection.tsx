@@ -43,13 +43,27 @@ export default function AboutSection() {
             className="relative"
           >
             <div className="relative rounded-3xl overflow-hidden glass-card p-8">
-              {/* Placeholder for about image - replace with actual image */}
-              <div className="aspect-square bg-gradient-to-br from-cosmic-violet/20 to-cosmic-cyan/20 rounded-2xl flex items-center justify-center">
-                <div className="text-center">
-                  <div className="text-8xl mb-4">🌌</div>
-                  <p className="text-cosmic-light/60 font-heading">
+              {/* Visual placeholder - replace with an illustration or team photo */}
+              <div className="aspect-square bg-gradient-to-br from-cosmic-violet/10 to-cosmic-cyan/10 rounded-2xl flex items-center justify-center">
+                <div className="text-center px-6">
+                  <div className="text-6xl mb-4">🌌</div>
+                  <p className="text-cosmic-light/60 font-heading mb-4">
                     Data Cosmos Team
                   </p>
+
+                  <div className="grid grid-cols-1 gap-2 text-sm text-cosmic-light/70">
+                    <div className="flex items-center justify-center gap-2">
+                      <span className="px-2 py-1 rounded-full bg-white/5">
+                        Data Engineering
+                      </span>
+                      <span className="px-2 py-1 rounded-full bg-white/5">
+                        Cloud Migration
+                      </span>
+                      <span className="px-2 py-1 rounded-full bg-white/5">
+                        Analytics & ML
+                      </span>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -88,8 +102,8 @@ export default function AboutSection() {
               </div>
 
               <h2 className="text-5xl md:text-6xl font-heading font-bold text-cosmic-light mb-6 leading-tight">
-                We Strive To Create A{" "}
-                <span className="text-gradient">Cohesive Ecosystem</span>
+                We Create a{" "}
+                <span className="text-gradient">Cohesive Data Ecosystem</span>
               </h2>
 
               <p className="text-xl text-cosmic-light/80 mb-8 leading-relaxed">
@@ -101,6 +115,12 @@ export default function AboutSection() {
                 into actionable insights. Our team of experienced data
                 engineers, analysts, and scientists work collaboratively to
                 deliver solutions that drive real business impact.
+              </p>
+
+              <p className="text-sm text-cosmic-light/60 mb-8">
+                Founded by experienced data practitioners — we combine
+                engineering rigor with product thinking to deliver measurable
+                outcomes.
               </p>
             </motion.div>
 
