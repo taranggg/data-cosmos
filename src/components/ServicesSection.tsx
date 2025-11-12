@@ -11,6 +11,7 @@ import {
   Brain,
   Shield,
   Sparkles,
+  ArrowRight,
 } from "lucide-react";
 
 type Point = { x: number; y: number };
@@ -94,12 +95,16 @@ export default function ServicesSection() {
     };
   }, []);
 
-  // Helper to create a smooth cubic curve between two points
+  // Helper to create a smooth cubic curve between two points with a visible curve
   const buildCurve = (a: Point, b: Point) => {
-    const dx = Math.abs(b.x - a.x);
+    const dx = b.x - a.x;
+    const midY = (a.y + b.y) / 2;
+    // curve intensity depends on horizontal distance, clamp for stability
+    const curveIntensity = Math.min(140, Math.max(40, Math.abs(dx) * 0.18));
+    const controlY = midY - curveIntensity;
     const cx1 = a.x + dx * 0.35;
     const cx2 = b.x - dx * 0.35;
-    return `M ${a.x} ${a.y} C ${cx1} ${a.y}, ${cx2} ${b.y}, ${b.x} ${b.y}`;
+    return `M ${a.x} ${a.y} C ${cx1} ${controlY}, ${cx2} ${controlY}, ${b.x} ${b.y}`;
   };
 
   return (
@@ -238,8 +243,10 @@ export default function ServicesSection() {
                 delay={index * 0.1}
                 className={`relative z-30 overflow-hidden h-full`}
                 style={{
-                  minHeight: 220,
-                  background: `linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)), radial-gradient(circle at 10% 15%, ${service.color}11, transparent 25%)`,
+                  maxHeight: 250,
+                  padding: "1.25rem",
+                  boxSizing: "border-box",
+                  background: `linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)), radial-gradient(circle at 8% 12%, ${service.color}22, transparent 30%)`,
                 }}
               >
                 <motion.div
@@ -248,13 +255,13 @@ export default function ServicesSection() {
                   className="mb-4"
                 >
                   <div
-                    className="w-16 h-16 rounded-2xl flex items-center justify-center"
+                    className="w-14 h-14 rounded-2xl flex items-center justify-center"
                     style={{
-                      background: `linear-gradient(135deg, ${service.color}33, ${service.color}15)`,
-                      boxShadow: `0 6px 20px ${service.color}22`,
+                      background: `linear-gradient(135deg, ${service.color}33, ${service.color}12)`,
+                      boxShadow: `0 8px 26px ${service.color}22`,
                     }}
                   >
-                    <service.icon className="w-8 h-8 text-white" />
+                    <service.icon className="w-7 h-7 text-white" />
                   </div>
                 </motion.div>
 
@@ -264,6 +271,18 @@ export default function ServicesSection() {
                 <p className="text-cosmic-light/70 leading-relaxed">
                   {service.description}
                 </p>
+                <div className="mt-6">
+                  <a
+                    href="#"
+                    onClick={(e) => e.preventDefault()}
+                    className="inline-flex items-center gap-2 text-sm font-semibold text-cosmic-light/80 hover:text-white transition-all group"
+                  >
+                    <span className="underline decoration-transparent group-hover:decoration-white/30 transition-all">
+                      Read more
+                    </span>
+                    <ArrowRight className="w-4 h-4 text-cosmic-light/70 group-hover:text-white transition-transform group-hover:translate-x-1" />
+                  </a>
+                </div>
               </GlassCard>
             </div>
           ))}
