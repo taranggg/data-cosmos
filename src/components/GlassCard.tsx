@@ -8,6 +8,7 @@ interface GlassCardProps {
   className?: string;
   hover?: boolean;
   delay?: number;
+  style?: React.CSSProperties;
 }
 
 export default function GlassCard({
@@ -15,6 +16,7 @@ export default function GlassCard({
   className = "",
   hover = true,
   delay = 0,
+  style,
 }: GlassCardProps) {
   return (
     <motion.div
@@ -22,7 +24,8 @@ export default function GlassCard({
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ duration: 0.6, delay }}
-      className={`glass-card rounded-3xl p-8 ${
+      style={style}
+      className={`glass-card rounded-3xl p-8 backdrop-blur-md bg-white/4 border border-white/8 ${
         hover ? "glass-card-hover" : ""
       } ${className}`}
     >
