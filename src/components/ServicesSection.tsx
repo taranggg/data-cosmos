@@ -1,7 +1,6 @@
 "use client";
 
 import { useLayoutEffect, useRef, useState } from "react";
-import { motion } from "framer-motion";
 import SectionTitle from "./SectionTitle";
 import GlassCard from "./GlassCard";
 import {
@@ -123,7 +122,6 @@ export default function ServicesSection() {
             </linearGradient>
           </defs>
 
-          {/* Render dynamic connectors when points are available */}
           {points.length >= services.length && (
             <g>
               {/* top row: 0->1->2 */}
@@ -248,12 +246,9 @@ export default function ServicesSection() {
                   boxSizing: "border-box",
                   background: `linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)), radial-gradient(circle at 8% 12%, ${service.color}22, transparent 30%)`,
                 }}
+                animate={false}
               >
-                <motion.div
-                  whileHover={{ scale: 1.03 }}
-                  transition={{ duration: 0.28 }}
-                  className="mb-4"
-                >
+                <div className="mb-4">
                   <div
                     className="w-14 h-14 rounded-2xl flex items-center justify-center"
                     style={{
@@ -263,7 +258,7 @@ export default function ServicesSection() {
                   >
                     <service.icon className="w-7 h-7 text-white" />
                   </div>
-                </motion.div>
+                </div>
 
                 <h3 className="text-2xl font-heading font-bold text-cosmic-light mb-3">
                   {service.title}

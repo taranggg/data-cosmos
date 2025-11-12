@@ -9,6 +9,7 @@ interface GlassCardProps {
   hover?: boolean;
   delay?: number;
   style?: React.CSSProperties;
+  animate?: boolean;
 }
 
 export default function GlassCard({
@@ -17,19 +18,30 @@ export default function GlassCard({
   hover = true,
   delay = 0,
   style,
+  animate = true,
 }: GlassCardProps) {
+  const baseClass = `glass-card rounded-3xl p-8 backdrop-blur-md bg-white/4 border border-white/8 ${
+    hover ? "glass-card-hover" : ""
+  } ${className}`;
+
+  if (animate) {
+    return (
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.6, delay }}
+        style={style}
+        className={baseClass}
+      >
+        {children}
+      </motion.div>
+    );
+  }
+
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.6, delay }}
-      style={style}
-      className={`glass-card rounded-3xl p-8 backdrop-blur-md bg-white/4 border border-white/8 ${
-        hover ? "glass-card-hover" : ""
-      } ${className}`}
-    >
+    <div style={style} className={baseClass}>
       {children}
-    </motion.div>
+    </div>
   );
 }
