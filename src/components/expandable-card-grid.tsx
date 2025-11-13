@@ -84,20 +84,22 @@ export default function ExpandableCardGrid({
             <motion.div
               layoutId={`card-${active.title}-${id}`}
               ref={ref}
-              className="w-full max-w-[680px] h-full md:h-fit md:max-h-[90%] flex flex-col bg-white/6 dark:bg-neutral-900/60 sm:rounded-3xl overflow-hidden border border-cosmic-violet/10 backdrop-blur-md"
+              className="relative w-full max-w-[680px] h-full md:h-fit md:max-h-[90%] flex flex-col bg-white/6 dark:bg-neutral-900/60 sm:rounded-3xl overflow-hidden border border-cosmic-violet/20 backdrop-blur-md"
             >
+              {/* prominent violet gradient overlay for expanded card */}
+              <div className="absolute inset-0 pointer-events-none rounded-3xl bg-gradient-to-br from-cosmic-violet/20 via-cosmic-violet/12 to-transparent" />
               <div>
                 <div className="flex justify-between items-start p-4">
                   <div className="">
                     <motion.h3
                       layoutId={`title-${active.title}-${id}`}
-                      className="font-semibold text-neutral-900 dark:text-neutral-100 text-lg"
+                      className="font-bold text-neutral-900 dark:text-neutral-100 text-2xl md:text-3xl leading-tight z-20"
                     >
                       {active.title}
                     </motion.h3>
                     <motion.p
                       layoutId={`description-${active.description}-${id}`}
-                      className="text-neutral-600 dark:text-neutral-400 text-sm"
+                      className="text-neutral-600 dark:text-neutral-300 text-base md:text-lg leading-relaxed z-20"
                     >
                       {active.description}
                     </motion.p>
@@ -109,7 +111,7 @@ export default function ExpandableCardGrid({
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
-                    className="text-neutral-600 text-sm h-40 md:h-fit pb-10 flex flex-col items-start gap-4 overflow-auto dark:text-neutral-400 [mask:linear-gradient(to_bottom,white,white,transparent)] [scrollbar-width:none] [-ms-overflow-style:none] [-webkit-overflow-scrolling:touch]"
+                    className="text-neutral-600 text-base md:text-lg leading-relaxed h-40 md:h-fit pb-10 flex flex-col items-start gap-4 overflow-auto dark:text-neutral-300 z-20 [mask:linear-gradient(to_bottom,white,white,transparent)] [scrollbar-width:none] [-ms-overflow-style:none] [-webkit-overflow-scrolling:touch]"
                   >
                     {typeof active.content === "function"
                       ? active.content()
@@ -127,8 +129,23 @@ export default function ExpandableCardGrid({
             layoutId={`card-${card.title}-${id}`}
             key={card.title}
             onClick={() => setActive(card)}
+            role="button"
+            tabIndex={0}
+            onKeyDown={(e: React.KeyboardEvent) => {
+              if (e.key === "Enter" || e.key === " ") {
+                e.preventDefault();
+                setActive(card);
+              }
+            }}
+            aria-expanded={
+              !!(
+                active &&
+                typeof active === "object" &&
+                active.title === card.title
+              )
+            }
             className={
-              `p-6 flex flex-col justify-between hover:shadow-lg transition-shadow duration-200 rounded-3xl cursor-pointer relative bg-white/6 dark:bg-neutral-900/30 border border-white/6 backdrop-blur-md overflow-hidden ` +
+              `p-6 flex flex-col justify-between hover:shadow-lg transition-shadow duration-200 rounded-3xl cursor-pointer relative bg-white/6 dark:bg-neutral-900/30 border border-white/6 backdrop-blur-md overflow-hidden focus:outline-none focus-visible:ring-2 focus-visible:ring-cosmic-violet focus-visible:ring-offset-2 ` +
               (cardClassName ?? "")
             }
             style={{ minHeight: cardMinHeight ?? "9rem" }}
