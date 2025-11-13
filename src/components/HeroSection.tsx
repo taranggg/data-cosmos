@@ -1,30 +1,18 @@
 "use client";
 
-import { motion, useScroll, useTransform } from "framer-motion";
-import { Play } from "lucide-react";
-import Button from "./Button";
+import { motion } from "framer-motion";
+import RoundedRippleButton from "./ui/rounded-ripple-button";
 import { HoverBorderGradient } from "./ui/hover-border-gradient";
 import { useRef } from "react";
 
 export default function HeroSection() {
   const ref = useRef(null);
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ["start start", "end start"],
-  });
-
-  const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
-  const scale = useTransform(scrollYProgress, [0, 0.5], [1, 0.95]);
 
   return (
-    <section ref={ref} className="relative h-screen w-full overflow-hidden">
-      {/* Background (video removed) */}
-      <motion.div style={{ opacity, scale }} className="absolute inset-0 z-0">
-        {/* Static gradient background replaces the removed video for visual consistency */}
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-cosmic-dark/50 to-cosmic-dark" />
-      </motion.div>
-
-      {/* Content */}
+    <section
+      ref={ref}
+      className="relative h-screen w-full overflow-hidden bg-transparent"
+    >
       <div className="relative z-10 h-full flex items-center justify-center px-6">
         <div className="max-w-6xl mx-auto text-center">
           <motion.div
@@ -41,7 +29,7 @@ export default function HeroSection() {
                 Unlimited Data
               </span>
 
-              <span className="block hero-heading font-heading text-[2.75rem] md:text-[3.5rem] lg:text-[4.5rem]">
+              <span className="block hero-heading font-heading``` text-[2.75rem] md:text-[3.5rem] lg:text-[4.5rem]">
                 Possibilities
               </span>
             </h1>
@@ -62,26 +50,10 @@ export default function HeroSection() {
             transition={{ duration: 0.8, delay: 0.6 }}
             className="flex flex-col sm:flex-row gap-4 justify-center items-center"
           >
-            <Button variant="primary">Get a Demo</Button>
             <HoverBorderGradient as="div" containerClassName="ml-0">
-              See Our Work
+              Get a Demo
             </HoverBorderGradient>
-          </motion.div>
-
-          {/* Watch Caption */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.8, delay: 0.8 }}
-            className="mt-8 flex items-center justify-center gap-2 text-cosmic-light/60"
-          >
-            <div className="w-8 h-8 rounded-full bg-cosmic-violet/20 flex items-center justify-center">
-              <Play
-                className="w-4 h-4 text-cosmic-violet"
-                fill="currentColor"
-              />
-            </div>
-            <span className="text-sm">2-min watch</span>
+            <RoundedRippleButton text="See Our Work" />
           </motion.div>
         </div>
       </div>

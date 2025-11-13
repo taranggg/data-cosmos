@@ -1,92 +1,89 @@
 "use client";
-
-import { useState } from "react";
 import { motion } from "framer-motion";
 import SectionTitle from "./SectionTitle";
 import GlassCard from "./GlassCard";
 import Button from "./Button";
-import VideoModal from "./VideoModal";
+// Video removed per design — no modal needed
 import { Check } from "lucide-react";
 
 interface Product {
   name: string;
   tagline: string;
   features: string[];
-  videoSrc: string;
+  // optional slug for product pages (used by Learn More)
+  slug?: string;
 }
 
 export default function ProductsSection() {
-  const [selectedVideo, setSelectedVideo] = useState<{
-    src: string;
-    title: string;
-  } | null>(null);
-
   const products: Product[] = [
     {
       name: "SwayAnalytic",
+      slug: "swayanalytic",
       tagline: "Self-serve analytics for operators, not just analysts.",
       features: [
         "No-code dashboards for everyone",
         "360° customer insights",
         "Real-time operational metrics",
       ],
-      videoSrc: "/app/assets/SwayAnalytics__360°_Growth.mp4",
     },
     {
       name: "SwaySales",
+      slug: "swaysales",
       tagline: "Sales intelligence that nudges real outcomes.",
       features: [
         "AI-powered lead scoring",
         "Predictive pipeline analytics",
         "Automated follow-up insights",
       ],
-      videoSrc: "/app/assets/SaleSwayAI__Future_of_Sales_.mp4",
     },
     {
-      name: "DataStream Pro",
-      tagline: "Real-time decisions across your data streams.",
+      name: "Data Engineering & Platform",
+      slug: "data-engineering-platform",
+      tagline: "Production ETL/ELT, streaming & MLOps.",
       features: [
-        "Sub-second data processing",
-        "Multi-source integration",
-        "Event-driven architecture",
+        "Production ETL/ELT pipelines",
+        "High-throughput streaming & ingestion",
+        "Data lakes, metadata & MLOps infrastructure for enterprise workloads",
       ],
-      videoSrc: "/app/assets/Data_Cosmos__Chaos_to_Clarity.mp4",
     },
   ];
 
   return (
     <section className="py-32 px-6 relative overflow-hidden bg-cosmic-darker">
       <div className="relative z-10 max-w-7xl mx-auto">
-        <SectionTitle>Products.</SectionTitle>
+        <SectionTitle>Products & Platforms.</SectionTitle>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {products.map((product, index) => (
-            <GlassCard key={index} delay={index * 0.2}>
-              {/* Video Preview */}
-              <div className="relative aspect-video rounded-2xl overflow-hidden mb-6 group cursor-pointer">
-                <video
-                  muted
-                  loop
-                  playsInline
-                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                  onMouseEnter={(e) => e.currentTarget.play()}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.pause();
-                    e.currentTarget.currentTime = 0;
-                  }}
-                >
-                  <source src={product.videoSrc} type="video/mp4" />
-                </video>
-                <div className="absolute inset-0 bg-gradient-to-t from-cosmic-dark/80 to-transparent" />
-              </div>
+            <GlassCard
+              key={index}
+              delay={index * 0.2}
+              className="h-full flex flex-col"
+            >
+              {/* Decorative preview (image placeholder) */}
+              {/* <div className="relative aspect-video rounded-2xl overflow-hidden mb-6 flex items-center justify-center bg-gradient-to-tr from-cosmic-violet/10 to-cosmic-cyan/6">
+                <div className="text-cosmic-light/60 text-sm font-medium tracking-wide px-6 text-center">
+                  {product.name}
+                </div>
+                <div className="absolute inset-0 bg-gradient-to-t from-cosmic-dark/40 to-transparent" />
+              </div> */}
 
               {/* Product Info */}
-              <h3 className="text-3xl font-heading font-bold text-cosmic-light mb-3">
-                {product.name}
-              </h3>
-              <p className="text-lg text-cosmic-light/80 mb-6">
-                {product.tagline}
-              </p>
+              <div className="flex flex-col">
+                {/* Heading area: reserve space for up to 2 lines so headings start aligned */}
+                <div className="min-h-[4.5rem]">
+                  <h3 className="text-3xl font-heading font-bold text-cosmic-light mb-3">
+                    {product.name}
+                  </h3>
+                </div>
+
+                {/* Tagline area: reserve single-line space so taglines start aligned */}
+                <div className="min-h-[2.25rem] mb-6">
+                  <p className="text-lg text-cosmic-light/80">
+                    {product.tagline}
+                  </p>
+                </div>
+              </div>
 
               {/* Features */}
               <ul className="space-y-3 mb-8">
@@ -106,38 +103,10 @@ export default function ProductsSection() {
                   </motion.li>
                 ))}
               </ul>
-
-              {/* CTAs */}
-              <div className="flex gap-3">
-                <Button
-                  variant="primary"
-                  className="flex-1 text-sm py-3"
-                  onClick={() =>
-                    setSelectedVideo({
-                      src: product.videoSrc,
-                      title: product.name,
-                    })
-                  }
-                >
-                  Watch Demo
-                </Button>
-                <Button variant="outline" className="flex-1 text-sm py-3">
-                  View Docs
-                </Button>
-              </div>
             </GlassCard>
           ))}
         </div>
       </div>
-
-      {selectedVideo && (
-        <VideoModal
-          isOpen={!!selectedVideo}
-          onClose={() => setSelectedVideo(null)}
-          videoSrc={selectedVideo.src}
-          title={selectedVideo.title}
-        />
-      )}
     </section>
   );
 }
