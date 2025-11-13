@@ -1,8 +1,7 @@
 "use client";
 import { motion } from "framer-motion";
 import SectionTitle from "./SectionTitle";
-import GlassCard from "./GlassCard";
-import Button from "./Button";
+import { CardSpotlight } from "./ui/card-spotlight";
 // Video removed per design — no modal needed
 import { Check } from "lucide-react";
 
@@ -55,19 +54,10 @@ export default function ProductsSection() {
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {products.map((product, index) => (
-            <GlassCard
+            <CardSpotlight
               key={index}
-              delay={index * 0.2}
-              className="h-full flex flex-col"
+              className="p-8 h-full rounded-3xl flex flex-col"
             >
-              {/* Decorative preview (image placeholder) */}
-              {/* <div className="relative aspect-video rounded-2xl overflow-hidden mb-6 flex items-center justify-center bg-gradient-to-tr from-cosmic-violet/10 to-cosmic-cyan/6">
-                <div className="text-cosmic-light/60 text-sm font-medium tracking-wide px-6 text-center">
-                  {product.name}
-                </div>
-                <div className="absolute inset-0 bg-gradient-to-t from-cosmic-dark/40 to-transparent" />
-              </div> */}
-
               {/* Product Info */}
               <div className="flex flex-col">
                 {/* Heading area: reserve space for up to 2 lines so headings start aligned */}
@@ -103,7 +93,7 @@ export default function ProductsSection() {
                   </motion.li>
                 ))}
               </ul>
-            </GlassCard>
+            </CardSpotlight>
           ))}
         </div>
       </div>

@@ -23,7 +23,7 @@ export const CardSpotlight = ({
     clientX,
     clientY,
   }: ReactMouseEvent<HTMLDivElement>) {
-    let { left, top } = currentTarget.getBoundingClientRect();
+    const { left, top } = currentTarget.getBoundingClientRect();
 
     mouseX.set(clientX - left);
     mouseY.set(clientY - top);
@@ -68,7 +68,8 @@ export const CardSpotlight = ({
           />
         )}
       </motion.div>
-      {children}
+      {/* keep animated overlay behind content by giving content its own stacking context */}
+      <div className="relative z-20">{children}</div>
     </div>
   );
 };
