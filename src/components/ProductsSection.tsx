@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import SectionTitle from "./SectionTitle";
 import { CardSpotlight } from "./ui/card-spotlight";
 import GlassCard from "./GlassCard";
+import ExpandableCardGrid from "./expandable-card-grid";
 import { HoverEffect } from "./ui/card-hover-effect";
 import { HoverBorderGradient } from "./ui/hover-border-gradient";
 import { Check } from "lucide-react";
@@ -184,59 +185,72 @@ export default function ProductsSection() {
         AI, predictive analytics, and seamless CRM integration to remove
         friction and boost revenue.
       </p>
-
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-        <div className="rounded-xl border border-white/6 p-6 bg-white/2">
-          <h4 className="font-semibold text-cosmic-light mb-3">
-            Core Capabilities
-          </h4>
-          <ul className="text-cosmic-light/70 space-y-2 list-disc list-inside">
-            <li>WhatsApp-native conversational assistant</li>
-            <li>Real-time pipeline & deal predictions</li>
-            <li>CRM bi-directional sync (Salesforce, HubSpot, Zoho)</li>
-            <li>Call recording & auto-summaries</li>
-            <li>Regional language support & voice notes</li>
-          </ul>
-        </div>
-
-        <div className="rounded-xl border border-white/6 p-6 bg-white/2">
-          <h4 className="font-semibold text-cosmic-light mb-3">
-            Sales Productivity Features
-          </h4>
-          <ul className="text-cosmic-light/70 space-y-2 list-disc list-inside">
-            <li>Proactive nudges & follow-up automation</li>
-            <li>Meeting summaries & action items</li>
-            <li>Smart next-step suggestions</li>
-            <li>Deal scoring and prioritization</li>
-            <li>Mobile-first dashboards & offline support</li>
-          </ul>
-        </div>
-
-        <div className="rounded-xl border border-white/6 p-6 bg-white/2">
-          <h4 className="font-semibold text-cosmic-light mb-3">
-            Analytics & Insights
-          </h4>
-          <ul className="text-cosmic-light/70 space-y-2 list-disc list-inside">
-            <li>Real-time team performance dashboards</li>
-            <li>Territory heatmaps & motor routes</li>
-            <li>Win/loss analysis and pitch resonance</li>
-            <li>Pipeline leakage alerts</li>
-            <li>Revenue forecasting & quota attainment</li>
-          </ul>
-        </div>
-
-        <div className="rounded-xl border border-white/6 p-6 bg-white/2">
-          <h4 className="font-semibold text-cosmic-light mb-3">
-            Platform & Integrations
-          </h4>
-          <ul className="text-cosmic-light/70 space-y-2 list-disc list-inside">
-            <li>Lightweight middleware for WhatsApp Business API</li>
-            <li>Secure connectors to CRMs and ERPs</li>
-            <li>Event streaming for real-time analytics (Kafka)</li>
-            <li>Model serving with CI/CD and monitoring</li>
-            <li>Role-based access & enterprise SSO</li>
-          </ul>
-        </div>
+      {/* Use expandable cards for the four SwaySales feature groups. */}
+      <div className="mb-6">
+        <ExpandableCardGrid
+          cards={[
+            {
+              title: "Core Capabilities",
+              description: "WhatsApp-native assistant, CRM sync & voice notes",
+              content: () => (
+                <div>
+                  <ul className="text-cosmic-light/70 space-y-2 list-disc list-inside">
+                    <li>WhatsApp-native conversational assistant</li>
+                    <li>Real-time pipeline & deal predictions</li>
+                    <li>CRM bi-directional sync (Salesforce, HubSpot, Zoho)</li>
+                    <li>Call recording & auto-summaries</li>
+                    <li>Regional language support & voice notes</li>
+                  </ul>
+                </div>
+              ),
+            },
+            {
+              title: "Sales Productivity Features",
+              description: "Nudges, summaries & next-step suggestions",
+              content: () => (
+                <div>
+                  <ul className="text-cosmic-light/70 space-y-2 list-disc list-inside">
+                    <li>Proactive nudges & follow-up automation</li>
+                    <li>Meeting summaries & action items</li>
+                    <li>Smart next-step suggestions</li>
+                    <li>Deal scoring and prioritization</li>
+                    <li>Mobile-first dashboards & offline support</li>
+                  </ul>
+                </div>
+              ),
+            },
+            {
+              title: "Analytics & Insights",
+              description: "Performance dashboards & forecasting",
+              content: () => (
+                <div>
+                  <ul className="text-cosmic-light/70 space-y-2 list-disc list-inside">
+                    <li>Real-time team performance dashboards</li>
+                    <li>Territory heatmaps & motor routes</li>
+                    <li>Win/loss analysis and pitch resonance</li>
+                    <li>Pipeline leakage alerts</li>
+                    <li>Revenue forecasting & quota attainment</li>
+                  </ul>
+                </div>
+              ),
+            },
+            {
+              title: "Platform & Integrations",
+              description: "Connectors, streaming, model serving",
+              content: () => (
+                <div>
+                  <ul className="text-cosmic-light/70 space-y-2 list-disc list-inside">
+                    <li>Lightweight middleware for WhatsApp Business API</li>
+                    <li>Secure connectors to CRMs and ERPs</li>
+                    <li>Event streaming for real-time analytics (Kafka)</li>
+                    <li>Model serving with CI/CD and monitoring</li>
+                    <li>Role-based access & enterprise SSO</li>
+                  </ul>
+                </div>
+              ),
+            },
+          ]}
+        />
       </div>
     </GlassCard>
   );
