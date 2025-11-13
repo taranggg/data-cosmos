@@ -65,7 +65,7 @@ export default function ServiceModelsSection() {
     >
       <div className="relative z-10 max-w-7xl mx-auto">
         <SectionTitle subtitle="Flexible engagement to match your stage — pilot, scale or enterprise transformation.">
-          Service Models
+          Service Models.
         </SectionTitle>
 
         <div className="space-y-8">

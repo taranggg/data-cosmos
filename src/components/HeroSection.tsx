@@ -50,7 +50,7 @@ export default function HeroSection() {
             transition={{ duration: 0.8, delay: 0.6 }}
             className="flex flex-col sm:flex-row gap-4 justify-center items-center"
           >
-            <HoverBorderGradient as="div" containerClassName="ml-0">
+            <HoverBorderGradient as="button" containerClassName="ml-0">
               Get a Demo
             </HoverBorderGradient>
             <RoundedRippleButton text="See Our Work" />
