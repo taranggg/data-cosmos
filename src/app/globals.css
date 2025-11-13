@@ -221,20 +221,27 @@ html {
   scroll-behavior: smooth;
 }
 
-/* Custom Scrollbar */
+/* Custom scrollbar removed to hide right-side scroll indicator */
+/* If you want a subtle scrollbar later, re-add rules here. */
+
+/* Completely hide scrollbars (cross-browser)
+   - WebKit (Chrome, Safari, newer Edge): hide via zero width/height on ::-webkit-scrollbar
+   - Firefox: scrollbar-width: none
+   - IE/older Edge: -ms-overflow-style: none
+   NOTE: Hiding scrollbars reduces discoverability and may affect usability. */
+html,
+body {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE 10+ */
+}
+
+/* WebKit browsers */
 ::-webkit-scrollbar {
-  width: 10px;
+  width: 0;
+  height: 0;
+  background: transparent;
 }
-
-::-webkit-scrollbar-track {
-  background: #0B0F14;
-}
-
 ::-webkit-scrollbar-thumb {
-  background: linear-gradient(135deg, #7C3AED 0%, #22D3EE 100%);
-  border-radius: 5px;
+  background: transparent;
 }
 
-::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(135deg, #8B46FF 0%, #33E4FF 100%);
-}

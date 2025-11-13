@@ -17,6 +17,12 @@ export const metadata: Metadata = {
   title: "Data Cosmos - Your Universe of Unlimited Data Possibilities",
   description:
     "We build cohesive, integrated data ecosystems that turn chaos into clarity.",
+  icons: [
+    {
+      rel: "icon",
+      url: "/data_cosmos_favicon.png",
+    },
+  ],
 };
 
 export default function RootLayout({

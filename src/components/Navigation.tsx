@@ -3,7 +3,9 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X } from "lucide-react";
-import Button from "./Button";
+import Image from "next/image";
+import DataCosmosLogo from "../app/assets/DataCosmosLogo.png";
+import { HoverBorderGradient } from "./ui/hover-border-gradient";
 
 export default function Navigation() {
   const [isOpen, setIsOpen] = useState(false);
@@ -32,7 +34,7 @@ export default function Navigation() {
     : "backdrop-blur-xl bg-white/6 dark:bg-black/20 border-b border-white/6 dark:border-black/10 shadow-none";
 
   const contentClass = shrunk
-    ? "max-w-7xl mx-auto flex items-center justify-between px-4"
+    ? "max-w-7xl mx-auto flex items-center justify-between px-4 py-2"
     : "max-w-7xl mx-auto flex items-center justify-between py-4 px-6";
 
   return (
@@ -63,35 +65,15 @@ export default function Navigation() {
           href="/"
           initial={{ opacity: 0, x: -12 }}
           animate={{ opacity: 1, x: 0 }}
-          className="flex items-center gap-3"
         >
-          <div
-            className={
-              shrunk
-                ? "w-10 h-10 rounded-lg flex items-center justify-center text-white"
-                : "w-12 h-12 rounded-lg flex items-center justify-center text-white"
-            }
-            style={{ background: "linear-gradient(135deg,#7C3AED,#22D3EE)" }}
-          >
-            <span
-              className={
-                shrunk
-                  ? "font-heading font-bold text-sm"
-                  : "font-heading font-bold text-base"
-              }
-            >
-              DC
-            </span>
-          </div>
-          <span
-            className={
-              shrunk
-                ? "text-base font-heading font-semibold text-cosmic-light"
-                : "text-xl font-heading font-semibold text-cosmic-light"
-            }
-          >
-            Data Cosmos
-          </span>
+          {/* Logo image (loaded from src/app/assets/DataCosmosLogo.png) */}
+          <Image
+            src={DataCosmosLogo}
+            alt="Data Cosmos"
+            width={shrunk ? 150 : 200}
+            height={shrunk ? 140 : 180}
+            className="rounded-lg object-cover"
+          />
         </motion.a>
 
         {/* Desktop Navigation */}
@@ -113,16 +95,18 @@ export default function Navigation() {
             </motion.a>
           ))}
 
-          <Button
-            variant="primary"
+          <HoverBorderGradient
+            onClick={() => (window.location.hash = "get-started")}
+            containerClassName={shrunk ? "rounded-full" : "rounded-full"}
             className={
               shrunk
-                ? "rounded-full text-sm px-5 py-2 shadow-md"
-                : "rounded-full text-base px-6 py-3 shadow-md"
+                ? "text-sm px-5 py-2 shadow-md"
+                : "text-base px-6 py-3 shadow-md"
             }
+            duration={0.9}
           >
             Get Started
-          </Button>
+          </HoverBorderGradient>
         </div>
 
         {/* Mobile Menu Button */}
@@ -166,9 +150,13 @@ export default function Navigation() {
                     {link.name}
                   </a>
                 ))}
-                <Button variant="primary" className="w-full rounded-full">
+                <HoverBorderGradient
+                  onClick={() => (window.location.hash = "get-started")}
+                  className="w-full rounded-full"
+                  duration={0.9}
+                >
                   Get Started
-                </Button>
+                </HoverBorderGradient>
               </div>
             </div>
           </motion.div>
