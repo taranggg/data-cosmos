@@ -18,22 +18,9 @@ export default function HeroSection() {
 
   return (
     <section ref={ref} className="relative h-screen w-full overflow-hidden">
-      {/* Background Video */}
+      {/* Background (video removed) */}
       <motion.div style={{ opacity, scale }} className="absolute inset-0 z-0">
-        <video
-          autoPlay
-          muted
-          loop
-          playsInline
-          className="w-full h-full object-cover"
-        >
-          <source
-            src="/app/assets/Data_Cosmos__Chaos_to_Clarity.mp4"
-            type="video/mp4"
-          />
-        </video>
-
-        {/* Gradient Overlay */}
+        {/* Static gradient background replaces the removed video for visual consistency */}
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-cosmic-dark/50 to-cosmic-dark" />
       </motion.div>
 
@@ -98,8 +85,6 @@ export default function HeroSection() {
           </motion.div>
         </div>
       </div>
-
-      {/* Scroll indicator removed per request */}
     </section>
   );
 }
