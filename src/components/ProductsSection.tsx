@@ -16,7 +16,6 @@ interface Product {
 }
 
 export default function ProductsSection() {
-  // small animated number component for impact stats (unchanged)
   function AnimatedNumber({
     end,
     duration = 1200,
@@ -101,7 +100,6 @@ export default function ProductsSection() {
     );
   }
 
-  // data (unchanged)
   const products: Product[] = [
     {
       name: "SwaySales",
@@ -134,8 +132,6 @@ export default function ProductsSection() {
       ],
     },
   ];
-
-  // --- Subcomponents (structure-only refactor, styles/content unchanged) ---
 
   const ProductsGrid = ({ items }: { items: Product[] }) => (
     <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -734,7 +730,6 @@ export default function ProductsSection() {
     </GlassCard>
   );
 
-  // --- Page layout using subcomponents (structure unchanged) ---
   return (
     <section className="py-32 px-6 relative overflow-hidden bg-cosmic-darker">
       <div className="relative z-10 max-w-7xl mx-auto">
