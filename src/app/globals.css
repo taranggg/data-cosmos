@@ -191,17 +191,39 @@
 }
 
 /* Text Gradient */
-.text-gradient {
-  background: linear-gradient(135deg, #7C3AED 0%, #22D3EE 100%);
+.hero-heading {
+  font-weight: 700;
+  letter-spacing: -0.015em;
+  line-height: 1.02;
+  /* slightly softened white -> cool-gray gradient for a pleasant look */
+  background: linear-gradient(180deg, #ffffff 0%, #eef3fb 20%, #d6dce6 50%, #bfc7cf 95%);
   -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
   background-clip: text;
+  -webkit-text-fill-color: transparent;
+  /* softer shadow and lighter stroke so text is soothing */
+  text-shadow: 0 10px 22px rgba(2,6,23,0.45), 0 2px 0 rgba(255,255,255,0.01);
+  -webkit-text-stroke: 0.4px rgba(0,0,0,0.25);
+  background-size: 100% 200%;
 }
 
-/* Accent Glow */
-.accent-glow {
-  box-shadow: 0 0 20px rgba(124, 58, 237, 0.5);
+/* Middle row styling: keep blue/purple gradient but reduce weight so it's not overpowering */
+.hero-middle {
+  font-weight: 700;
+  letter-spacing: -0.008em;
+  text-shadow: 0 6px 12px rgba(2,6,23,0.22);
 }
+/* Colored text gradient used for the hero middle row (Unlimited Data) */
+.text-gradient {
+  /* vibrant cyan -> violet gradient */
+  background: linear-gradient(90deg, #22D3EE 0%, #7C3AED 100%);
+  background-size: 200% 200%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  /* subtle shifting motion to keep it alive but not distracting */
+  animation: gradient-shift 6s ease infinite;
+}
+/* end hero styles */
 
 /* SVG stroke draw animation */
 .stroke-animate {
