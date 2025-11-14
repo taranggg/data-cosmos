@@ -252,11 +252,6 @@ export default function ProductsSection() {
           ]}
         />
       </div>
-    </GlassCard>
-  );
-
-  const SwaySalesWorkflows = () => (
-    <div className="lg:col-span-1">
       <div>
         <h4 className="font-semibold text-cosmic-light mb-3">
           Typical workflows
@@ -317,9 +312,12 @@ export default function ProductsSection() {
           </div>
         </div>
       </div>
+    </GlassCard>
+  );
 
-      {/* CTA box (unchanged) */}
-      <div className="p-8 mt-8 rounded-3xl border border-white/8 bg-white/4 h-full">
+  const SwaySalesWorkflows = () => (
+    <div className="lg:col-span-1">
+      <div className="p-8 rounded-3xl border border-white/8 bg-white/4 h-full">
         <h4 className="text-lg font-semibold text-cosmic-light mb-4">
           Why teams pick SaleSway
         </h4>
@@ -341,110 +339,125 @@ export default function ProductsSection() {
   );
 
   const SwayAnalyticsDetails = () => (
-    <GlassCard className="p-8">
+    <GlassCard className="p-8 h-full flex flex-col">
       <h3 className="text-2xl font-heading font-bold text-cosmic-light mb-4">
         SwayAnalytics.ai
       </h3>
-      <p className="text-cosmic-light/80 mb-8">
+      <p className="text-cosmic-light/80 mb-9">
         SwayAnalytics integrates enterprise and field data to produce
         predictive, prescriptive, and conversational intelligence across
         sectors.
       </p>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div className="rounded-xl border border-white/6 p-6 bg-white/2">
-          <h4 className="font-semibold text-cosmic-light mb-3">
-            Agri Intelligence
-          </h4>
-          <ul className="text-cosmic-light/70 space-y-2 list-disc list-inside">
-            <li>KCC behavioural analytics</li>
-            <li>Supply-chain forecasting</li>
-            <li>Equipment-as-a-Service</li>
-            <li>Embedded finance & insurance</li>
-            <li>Resilience & risk alerts</li>
-          </ul>
-        </div>
-
-        <div className="rounded-xl border border-white/6 p-6 bg-white/2">
-          <h4 className="font-semibold text-cosmic-light mb-3">
-            Rural Employment Intelligence
-          </h4>
-          <ul className="text-cosmic-light/70 space-y-2 list-disc list-inside">
-            <li>Unified talent mapping</li>
-            <li>Predictive job–skill matching</li>
-            <li>CSR impact & wage uplift metrics</li>
-            <li>WhatsApp worker engagement</li>
-            <li>Retention forecasting</li>
-          </ul>
-        </div>
-
-        <div className="rounded-xl border border-white/6 p-6 bg-white/2">
-          <h4 className="font-semibold text-cosmic-light mb-3">
-            Election Intelligence
-          </h4>
-          <ul className="text-cosmic-light/70 space-y-2 list-disc list-inside">
-            <li>Ground pulse & sentiment mapping</li>
-            <li>Swing Prediction Engine</li>
-            <li>Message Resonance testing</li>
-            <li>Mobilization & volunteer tracker</li>
-            <li>Booth-level turnout prediction</li>
-          </ul>
-        </div>
-
-        <div className="rounded-xl border border-white/6 p-6 bg-white/2">
-          <h4 className="font-semibold text-cosmic-light mb-3">
-            Core Capabilities
-          </h4>
-          <ul className="text-cosmic-light/70 space-y-2 list-disc list-inside">
-            <li>Conversational AI (NLP queries)</li>
-            <li>Behavioral & predictive models</li>
-            <li>UEBA security layer</li>
-            <li>Pre-built connectors</li>
-            <li>Model monitoring & bias audits</li>
-          </ul>
-        </div>
+      <div className="mb-7">
+        <ExpandableCardGrid
+          cards={[
+            {
+              title: "Agri Intelligence",
+              description: "KCC analytics, forecasting & resilience",
+              content: () => (
+                <div>
+                  <ul className="text-cosmic-light/70 space-y-2 list-disc list-inside">
+                    <li>KCC behavioural analytics</li>
+                    <li>Supply-chain forecasting</li>
+                    <li>Equipment-as-a-Service</li>
+                    <li>Embedded finance & insurance</li>
+                    <li>Resilience & risk alerts</li>
+                  </ul>
+                </div>
+              ),
+            },
+            {
+              title: "Rural Employment Intelligence",
+              description: "Talent mapping, retention & engagement",
+              content: () => (
+                <div>
+                  <ul className="text-cosmic-light/70 space-y-2 list-disc list-inside">
+                    <li>Unified talent mapping</li>
+                    <li>Predictive job–skill matching</li>
+                    <li>CSR impact & wage uplift metrics</li>
+                    <li>WhatsApp worker engagement</li>
+                    <li>Retention forecasting</li>
+                  </ul>
+                </div>
+              ),
+            },
+            {
+              title: "Election Intelligence",
+              description: "Ground pulse, swing prediction & mobilization",
+              content: () => (
+                <div>
+                  <ul className="text-cosmic-light/70 space-y-2 list-disc list-inside">
+                    <li>Ground pulse & sentiment mapping</li>
+                    <li>Swing Prediction Engine</li>
+                    <li>Message Resonance testing</li>
+                    <li>Mobilization & volunteer tracker</li>
+                    <li>Booth-level turnout prediction</li>
+                  </ul>
+                </div>
+              ),
+            },
+            {
+              title: "Core Capabilities",
+              description: "Conversational AI, models & connectors",
+              content: () => (
+                <div>
+                  <ul className="text-cosmic-light/70 space-y-2 list-disc list-inside">
+                    <li>Conversational AI (NLP queries)</li>
+                    <li>Behavioral & predictive models</li>
+                    <li>UEBA security layer</li>
+                    <li>Pre-built connectors</li>
+                    <li>Model monitoring & bias audits</li>
+                  </ul>
+                </div>
+              ),
+            },
+          ]}
+        />
       </div>
+
+      <div className="flex-1" />
 
       <div className="mt-8 border-t border-white/6 pt-8">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          <div>
-            <h4 className="text-lg font-semibold text-cosmic-light mb-4">
+          <div className="lg:col-span-2">
+            <h4 className="text-xl font-semibold text-cosmic-light mb-4">
               Industries We Empower
             </h4>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div className="space-y-3">
-                <div className="flex items-start gap-3">
-                  <span className="w-2 h-2 rounded-full bg-cosmic-violet mt-2" />
+                <div className="flex items-start gap-5">
+                  <span className="w-1 h-6 rounded-full bg-cosmic-violet mt-1" />
                   <div>
                     <div className="font-semibold text-cosmic-light">
                       Public Sector
                     </div>
-                    <div className="text-sm text-cosmic-light/70">
+                    <div className="text-base text-cosmic-light/70">
                       Program monitoring, impact analytics, citizen data systems
                     </div>
                   </div>
                 </div>
 
-                <div className="flex items-start gap-3">
-                  <span className="w-2 h-2 rounded-full bg-cosmic-violet mt-2" />
+                <div className="flex items-start gap-5">
+                  <span className="w-1 h-6 rounded-full bg-cosmic-violet mt-1" />
                   <div>
                     <div className="font-semibold text-cosmic-light">
                       Retail &amp; FMCG
                     </div>
-                    <div className="text-sm text-cosmic-light/70">
+                    <div className="text-base text-cosmic-light/70">
                       Sales forecasting, inventory optimization, customer
                       segmentation
                     </div>
                   </div>
                 </div>
 
-                <div className="flex items-start gap-3">
-                  <span className="w-2 h-2 rounded-full bg-cosmic-violet mt-2" />
+                <div className="flex items-start gap-5">
+                  <span className="w-1 h-6 rounded-full bg-cosmic-violet mt-1" />
                   <div>
                     <div className="font-semibold text-cosmic-light">
                       Agriculture &amp; Rural Development
                     </div>
-                    <div className="text-sm text-cosmic-light/70">
+                    <div className="text-base text-cosmic-light/70">
                       Resource mapping, livelihood intelligence, geospatial
                       insights
                     </div>
@@ -453,56 +466,32 @@ export default function ProductsSection() {
               </div>
 
               <div className="space-y-3">
-                <div className="flex items-start gap-3">
-                  <span className="w-2 h-2 rounded-full bg-cosmic-violet mt-2" />
+                <div className="flex items-start gap-5">
+                  <span className="w-1 h-6 rounded-full bg-cosmic-violet mt-1" />
                   <div>
                     <div className="font-semibold text-cosmic-light">
                       Financial Services
                     </div>
-                    <div className="text-sm text-cosmic-light/70">
+                    <div className="text-base text-cosmic-light/70">
                       Risk scoring, customer behavior modeling, performance
                       analytics
                     </div>
                   </div>
                 </div>
 
-                <div className="flex items-start gap-3">
-                  <span className="w-2 h-2 rounded-full bg-cosmic-violet mt-2" />
+                <div className="flex items-start gap-5">
+                  <span className="w-1 h-6 rounded-full bg-cosmic-violet mt-1" />
                   <div>
                     <div className="font-semibold text-cosmic-light">
                       Operations &amp; Field Teams
                     </div>
-                    <div className="text-sm text-cosmic-light/70">
+                    <div className="text-base text-cosmic-light/70">
                       Workforce tracking, performance benchmarking, real-time
                       alerts
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
-          </div>
-
-          <div className="space-y-6">
-            <div className="p-4 rounded-lg bg-white/3 border border-white/6">
-              <h4 className="font-semibold text-cosmic-light mb-2">
-                Our Vision
-              </h4>
-              <p className="text-cosmic-light/80 italic">
-                To make advanced analytics accessible, actionable, and
-                human-centered — so decisions across every level are powered by
-                clarity, not complexity. Data becomes valuable only when it
-                moves decisions.
-              </p>
-            </div>
-
-            <div className="pt-1">
-              <h4 className="font-semibold text-cosmic-light mb-2">
-                Let’s Build Intelligence That Scales
-              </h4>
-              <p className="text-cosmic-light/80 mb-4">
-                Bring clarity to complexity — with data pipelines, models, and
-                dashboards built around your mission.
-              </p>
             </div>
           </div>
         </div>
@@ -518,7 +507,7 @@ export default function ProductsSection() {
             <AnimatedNumber
               end={80}
               suffix="%"
-              className="text-2xl font-bold text-cosmic-light"
+              className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-br from-cosmic-violet/90 to-cosmic-light/90"
             />
             <div className="text-sm text-cosmic-light/70 mt-2">
               faster insight generation
@@ -528,7 +517,7 @@ export default function ProductsSection() {
             <AnimatedNumber
               end={40}
               suffix="%"
-              className="text-2xl font-bold text-cosmic-light"
+              className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-br from-cosmic-violet/90 to-cosmic-light/90"
             />
             <div className="text-sm text-cosmic-light/70 mt-2">
               reduction in manual reporting
@@ -538,7 +527,7 @@ export default function ProductsSection() {
             <AnimatedNumber
               end={10000}
               format="compact"
-              className="text-xl font-bold text-cosmic-light"
+              className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-br from-cosmic-violet/90 to-cosmic-light/90"
               post="–10M+"
             />
             <div className="text-sm text-cosmic-light/70 mt-2">
@@ -549,11 +538,27 @@ export default function ProductsSection() {
             <AnimatedNumber
               end={85}
               suffix="%+"
-              className="text-2xl font-bold text-cosmic-light"
+              className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-br from-cosmic-violet/90 to-cosmic-light/90"
             />
             <div className="text-sm text-cosmic-light/70 mt-2">
               predictive accuracy in pilots
             </div>
+          </div>
+        </div>
+      </div>
+
+      <div className="space-y-6 mt-8">
+        <div className="p-4 rounded-lg relative overflow-hidden bg-white/3 border border-cosmic-violet/20">
+          {/* violet tint overlay */}
+          <div className="absolute inset-0 pointer-events-none bg-gradient-to-br from-cosmic-violet/20 via-cosmic-violet/10 to-transparent mix-blend-overlay" />
+          <div className="relative">
+            <h4 className="font-semibold text-cosmic-light mb-2">Our Vision</h4>
+            <p className="text-cosmic-light/80 italic">
+              To make advanced analytics accessible, actionable, and
+              human-centered — so decisions across every level are powered by
+              clarity, not complexity. Data becomes valuable only when it moves
+              decisions.
+            </p>
           </div>
         </div>
       </div>
@@ -716,8 +721,9 @@ export default function ProductsSection() {
           </div>
 
           <div className="md:col-span-1">
-            <div className="p-6 rounded-2xl border border-white/8 bg-white/3 h-full flex flex-col justify-between">
-              <div>
+            <div className="p-6 rounded-2xl relative overflow-hidden border border-cosmic-violet/20 bg-white/3 h-full flex flex-col justify-between">
+              <div className="absolute inset-0 pointer-events-none bg-gradient-to-br from-cosmic-violet/20 via-cosmic-violet/10 to-transparent mix-blend-overlay" />
+              <div className="relative">
                 <h5 className="text-base font-semibold text-cosmic-light mb-2">
                   Discuss platform needs
                 </h5>
@@ -725,9 +731,7 @@ export default function ProductsSection() {
                   Ready to scale your data platform? We can help with
                   architecture, delivery, or managed operations.
                 </p>
-              </div>
 
-              <div>
                 <HoverBorderGradient
                   as="a"
                   href="#contact"
