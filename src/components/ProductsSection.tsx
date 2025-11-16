@@ -503,44 +503,44 @@ export default function ProductsSection() {
     <div className="lg:col-span-1">
       <div>
         <div className="grid grid-cols-2 gap-3">
-          <div className="p-4 bg-white/3 rounded-lg text-center min-h-[5.25rem] flex flex-col items-center justify-center">
+          <div className="p-3 bg-white/3 rounded-lg text-center min-h-[4.5rem] flex flex-col items-center justify-center">
             <AnimatedNumber
               end={80}
               suffix="%"
-              className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-br from-cosmic-violet/90 to-cosmic-light/90"
+              className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-br from-cosmic-violet/90 to-cosmic-light/90"
             />
-            <div className="text-sm text-cosmic-light/70 mt-2">
+            <div className="text-xs text-cosmic-light/70 mt-1.5">
               faster insight generation
             </div>
           </div>
-          <div className="p-4 bg-white/3 rounded-lg text-center min-h-[5.25rem] flex flex-col items-center justify-center">
+          <div className="p-3 bg-white/3 rounded-lg text-center min-h-[4.5rem] flex flex-col items-center justify-center">
             <AnimatedNumber
               end={40}
               suffix="%"
-              className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-br from-cosmic-violet/90 to-cosmic-light/90"
+              className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-br from-cosmic-violet/90 to-cosmic-light/90"
             />
-            <div className="text-sm text-cosmic-light/70 mt-2">
+            <div className="text-xs text-cosmic-light/70 mt-1.5">
               reduction in manual reporting
             </div>
           </div>
-          <div className="p-4 bg-white/3 rounded-lg text-center min-h-[5.25rem] flex flex-col items-center justify-center">
+          <div className="p-3 bg-white/3 rounded-lg text-center min-h-[4.5rem] flex flex-col items-center justify-center">
             <AnimatedNumber
               end={10000}
               format="compact"
-              className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-br from-cosmic-violet/90 to-cosmic-light/90"
+              className="text-lg font-bold bg-clip-text text-transparent bg-gradient-to-br from-cosmic-violet/90 to-cosmic-light/90"
               post="–10M+"
             />
-            <div className="text-sm text-cosmic-light/70 mt-2">
+            <div className="text-xs text-cosmic-light/70 mt-1.5">
               records supported
             </div>
           </div>
-          <div className="p-4 bg-white/3 rounded-lg text-center min-h-[5.25rem] flex flex-col items-center justify-center">
+          <div className="p-3 bg-white/3 rounded-lg text-center min-h-[4.5rem] flex flex-col items-center justify-center">
             <AnimatedNumber
               end={85}
               suffix="%+"
-              className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-br from-cosmic-violet/90 to-cosmic-light/90"
+              className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-br from-cosmic-violet/90 to-cosmic-light/90"
             />
-            <div className="text-sm text-cosmic-light/70 mt-2">
+            <div className="text-xs text-cosmic-light/70 mt-1.5">
               predictive accuracy in pilots
             </div>
           </div>
