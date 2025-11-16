@@ -301,35 +301,10 @@ export default function ServiceModelsSection() {
                           containerClassName="inline-block w-full group/cta"
                           className="text-sm font-semibold text-white px-6 py-3.5 w-full text-center shadow-lg shadow-cosmic-violet/20 flex items-center justify-center gap-2 relative"
                         >
-                          <motion.div
-                            className="relative flex items-center justify-center w-4 h-4"
-                            whileHover={{
-                              scale: 1.2,
-                              rotate: 15,
-                              x: 2,
-                            }}
-                            transition={{
-                              type: "spring",
-                              stiffness: 500,
-                              damping: 12,
-                            }}
-                          >
+                          <div className="relative flex items-center justify-center w-4 h-4 transition-transform duration-200 group-hover/cta:scale-[1.2] group-hover/cta:rotate-[15deg] group-hover/cta:translate-x-[0.125rem]">
                             <Phone className="w-4 h-4 relative z-10" />
-                            {/* Glowing pulse effect on hover */}
-                            <motion.div
-                              className="absolute inset-0 rounded-full bg-cosmic-violet/40 blur-sm"
-                              initial={{ scale: 1, opacity: 0 }}
-                              whileHover={{
-                                scale: [1, 1.8, 1.4],
-                                opacity: [0, 0.5, 0],
-                              }}
-                              transition={{
-                                duration: 1.2,
-                                repeat: Infinity,
-                                ease: "easeInOut",
-                              }}
-                            />
-                          </motion.div>
+                            <div className="absolute inset-0 rounded-full bg-cosmic-violet/40 blur-sm opacity-0 group-hover/cta:opacity-60 group-hover/cta:animate-ping" />
+                          </div>
                           <span>Talk to us</span>
                         </HoverBorderGradient>
                       </motion.div>
@@ -340,79 +315,6 @@ export default function ServiceModelsSection() {
             );
           })}
         </div>
-
-        {/* Additional Info Cards */}
-        {/* <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mt-16">
-          {benefits.map((benefit, index) => (
-            <motion.div
-              key={index}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: index * 0.1 }}
-              className="p-6 rounded-2xl backdrop-blur-md bg-white/4 border border-white/8 text-center"
-            >
-              <benefit.icon
-                className={`w-8 h-8 ${
-                  index === 1 ? "text-cosmic-cyan" : "text-cosmic-violet"
-                } mx-auto mb-3`}
-              />
-              <h4 className="font-heading font-semibold text-cosmic-light mb-2 text-base">
-                {benefit.title}
-              </h4>
-              <p className="text-sm text-cosmic-light/70">
-                {benefit.description}
-              </p>
-            </motion.div>
-          ))}
-        </div> */}
-
-        {/* Why choose block */}
-        {/* <div className="mt-16 p-8 rounded-3xl backdrop-blur-md bg-white/4 border border-white/8">
-          <h4 className="text-xl font-heading font-semibold text-cosmic-light mb-6">
-            Why choose DataCosmos
-          </h4>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-            <ul className="space-y-3">
-              {[
-                "Proven cloud-native patterns for cost-efficient scale",
-                "Production-focused ML & data ops with governance baked in",
-              ].map((item, i) => (
-                <li
-                  key={i}
-                  className="flex items-start gap-3 text-cosmic-light/70"
-                >
-                  <div className="w-1.5 h-6 rounded-full bg-cosmic-violet mt-1 flex-shrink-0" />
-                  <span>{item}</span>
-                </li>
-              ))}
-            </ul>
-            <ul className="space-y-3">
-              {[
-                "WhatsApp-first and field-ready integrations for real-world adoption",
-                "Flexible delivery: embedded teams, augmentation, or managed operations",
-              ].map((item, i) => (
-                <li
-                  key={i}
-                  className="flex items-start gap-3 text-cosmic-light/70"
-                >
-                  <div className="w-1.5 h-6 rounded-full bg-cosmic-violet mt-1 flex-shrink-0" />
-                  <span>{item}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          <HoverBorderGradient
-            as="a"
-            href="#contact"
-            containerClassName="inline-block"
-            className="text-sm font-semibold text-white px-6 py-3"
-          >
-            Discuss platform needs
-          </HoverBorderGradient>
-        </div> */}
       </div>
     </section>
   );
