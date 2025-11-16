@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import SectionTitle from "./SectionTitle";
 import GlassCard from "./GlassCard";
 import { HoverBorderGradient } from "./ui/hover-border-gradient";
+import { DottedGlowBackground } from "./ui/dotted-glow-background";
 import {
   Users,
   UserPlus,
@@ -12,7 +13,27 @@ import {
   Check,
   ChevronDown,
   ChevronUp,
+  Phone,
 } from "lucide-react";
+import { createElement } from "react";
+
+const gradientMapping: Record<string, string> = {
+  blue: "linear-gradient(hsl(223, 90%, 50%), hsl(208, 90%, 50%))",
+  purple: "linear-gradient(hsl(283, 90%, 50%), hsl(268, 90%, 50%))",
+  red: "linear-gradient(hsl(3, 90%, 50%), hsl(348, 90%, 50%))",
+  indigo: "linear-gradient(hsl(253, 90%, 50%), hsl(238, 90%, 50%))",
+  orange: "linear-gradient(hsl(43, 90%, 50%), hsl(28, 90%, 50%))",
+  green: "linear-gradient(hsl(123, 90%, 40%), hsl(108, 90%, 40%))",
+  violet: "linear-gradient(hsl(263, 90%, 50%), hsl(248, 90%, 50%))",
+  cyan: "linear-gradient(hsl(193, 90%, 50%), hsl(178, 90%, 50%))",
+};
+
+const getBackgroundStyle = (color: string): React.CSSProperties => {
+  if (gradientMapping[color]) {
+    return { background: gradientMapping[color] };
+  }
+  return { background: color };
+};
 
 export default function ServiceModelsSection() {
   const [expandedCards, setExpandedCards] = useState<number[]>([]);
@@ -43,6 +64,7 @@ export default function ServiceModelsSection() {
       features: ["Agile processes", "Monthly billing", "Maximum flexibility"],
       icon: Users,
       color: "from-cosmic-violet to-purple-600",
+      glassColor: "purple",
       glowColor: "rgba(124, 58, 237, 0.4)",
     },
     {
@@ -53,6 +75,7 @@ export default function ServiceModelsSection() {
       features: ["On-demand scaling", "Cost-effective", "Fast ramp-up"],
       icon: UserPlus,
       color: "from-cosmic-cyan to-blue-600",
+      glassColor: "blue",
       glowColor: "rgba(59, 130, 246, 0.4)",
     },
     {
@@ -63,6 +86,7 @@ export default function ServiceModelsSection() {
       features: ["Fixed or T&M", "Clear specifications", "Defined outcomes"],
       icon: FileCheck,
       color: "from-purple-600 to-cosmic-violet",
+      glassColor: "indigo",
       glowColor: "rgba(147, 51, 234, 0.4)",
     },
   ];
@@ -108,47 +132,105 @@ export default function ServiceModelsSection() {
                 />
 
                 <GlassCard
-                  className="p-8 h-full flex flex-col transition-all duration-300 relative z-0"
+                  className="p-6 h-full flex flex-col transition-all duration-300 relative z-0 overflow-hidden"
                   delay={0}
                   animate={false}
                 >
-                  {/* Badge and Icon - Fixed height section for alignment */}
-                  <div className="min-h-[120px] mb-6 relative z-10 flex flex-col justify-start">
-                    <div className="inline-block px-3 py-1 rounded-full bg-cosmic-violet/20 border border-cosmic-violet/50 mb-4 w-fit">
-                      <span className="text-cosmic-violet text-xs font-heading font-semibold">
+                  {/* Dotted Glow Background */}
+                  <div className="absolute inset-0 rounded-3xl overflow-hidden z-0 pointer-events-none">
+                    <DottedGlowBackground
+                      gap={12}
+                      radius={2}
+                      color="rgba(124, 58, 237, 0.3)"
+                      glowColor="rgba(124, 58, 237, 0.9)"
+                      opacity={0.8}
+                      backgroundOpacity={0.1}
+                      speedMin={0.4}
+                      speedMax={1.2}
+                      speedScale={0.8}
+                    />
+                  </div>
+
+                  {/* Badge positioned to the right */}
+                  <div className="absolute top-5 right-5 z-20">
+                    <motion.div
+                      initial={{ opacity: 0, scale: 0.8 }}
+                      whileInView={{ opacity: 1, scale: 1 }}
+                      viewport={{ once: true }}
+                      transition={{ delay: index * 0.2 + 0.3 }}
+                      className="inline-block px-4 py-1.5 rounded-full bg-gradient-to-r from-cosmic-violet/30 via-cosmic-violet/20 to-cosmic-violet/30 border border-cosmic-violet/60 backdrop-blur-md shadow-lg shadow-cosmic-violet/20"
+                    >
+                      <span className="text-cosmic-violet text-xs font-heading font-bold tracking-wide">
                         {model.badge}
                       </span>
-                    </div>
+                    </motion.div>
+                  </div>
 
+                  <div className="min-h-[110px] my-5 relative z-10 flex flex-col justify-start">
                     <motion.div
-                      initial={{ scale: 0.8, opacity: 0 }}
-                      whileInView={{ scale: 1, opacity: 1 }}
+                      initial={{ scale: 0.8, opacity: 0, rotate: -10 }}
+                      whileInView={{ scale: 1, opacity: 1, rotate: 0 }}
                       viewport={{ once: true }}
-                      transition={{ delay: index * 0.2 + 0.1 }}
-                      className={`w-14 h-14 rounded-xl bg-gradient-to-br ${model.color} flex items-center justify-center group-hover:scale-110 transition-transform duration-300`}
+                      transition={{
+                        delay: index * 0.2 + 0.1,
+                        type: "spring",
+                        stiffness: 200,
+                      }}
+                      className="relative bg-transparent outline-none w-[4.5em] h-[4.5em] [perspective:24em] [transform-style:preserve-3d] [-webkit-tap-highlight-color:transparent] pointer-events-none"
                     >
-                      <model.icon className="w-7 h-7 text-white" />
+                      {/* Background layer with gradient */}
+                      <span
+                        className="absolute top-0 left-0 w-full h-full rounded-[1.25em] block transition-[opacity,transform] duration-300 ease-[cubic-bezier(0.83,0,0.17,1)] origin-[100%_100%] rotate-[15deg] group-hover:[transform:rotate(25deg)_translate3d(-0.5em,-0.5em,0.5em)]"
+                        style={{
+                          ...getBackgroundStyle(model.glassColor),
+                          boxShadow:
+                            "0.5em -0.5em 0.75em hsla(223, 10%, 10%, 0.15)",
+                        }}
+                      />
+
+                      {/* Glass layer */}
+                      <span
+                        className="absolute top-0 left-0 w-full h-full rounded-[1.25em] bg-[hsla(0,0%,100%,0.15)] transition-[opacity,transform] duration-300 ease-[cubic-bezier(0.83,0,0.17,1)] origin-[80%_50%] flex backdrop-blur-[0.75em] [-webkit-backdrop-filter:blur(0.75em)] transform group-hover:[transform:translateZ(2em)]"
+                        style={{
+                          boxShadow: "0 0 0 0.1em hsla(0, 0%, 100%, 0.3) inset",
+                        }}
+                      >
+                        <span
+                          className="m-auto w-[1.5em] h-[1.5em] flex items-center justify-center text-white"
+                          aria-hidden="true"
+                        >
+                          {createElement(model.icon, {
+                            className: "w-full h-full",
+                          })}
+                        </span>
+                      </span>
                     </motion.div>
                   </div>
 
                   {/* Content - Flex layout for alignment */}
                   <div className="flex-1 flex flex-col relative z-10">
                     {/* Title - Fixed height section for alignment */}
-                    <div className="min-h-[72px] mb-4 flex items-start">
-                      <h3 className="text-2xl font-heading font-bold text-cosmic-light leading-tight">
-                        {model.title}
+                    <div className="min-h-[60px] mb-4 flex items-start relative z-10">
+                      <h3 className="text-2xl font-heading font-bold leading-tight">
+                        <span className="bg-gradient-to-r from-cosmic-light via-cosmic-light to-cosmic-light/80 bg-clip-text text-transparent drop-shadow-[0_2px_8px_rgba(124,58,237,0.3)]">
+                          {model.title}
+                        </span>
                       </h3>
                     </div>
 
                     {/* Description - Fixed height section for alignment */}
-                    <div className="min-h-[72px] mb-6 flex items-start">
-                      <p className="text-base text-cosmic-light/70 leading-relaxed">
-                        {model.description}
-                      </p>
+                    <div className="min-h-[60px] mb-5 flex items-start relative z-10">
+                      <div className="relative">
+                        <p className="text-base text-cosmic-light/75 leading-relaxed font-light">
+                          {model.description}
+                        </p>
+                        {/* Decorative line under description */}
+                        <div className="absolute -bottom-2 left-0 w-12 h-0.5 bg-gradient-to-r from-cosmic-violet/60 to-transparent rounded-full" />
+                      </div>
                     </div>
 
                     {/* Features - Consistent spacing with alignment */}
-                    <div className="min-h-[120px] mb-6 flex-1">
+                    <div className="min-h-[110px] mb-5 flex-1 relative z-10">
                       <div
                         className={`transition-all duration-300 overflow-hidden ${
                           !isExpanded && isMobile
@@ -156,7 +238,7 @@ export default function ServiceModelsSection() {
                             : "max-h-[300px] opacity-100"
                         }`}
                       >
-                        <ul className="space-y-2.5">
+                        <ul className="space-y-3">
                           {model.features.map((feature, i) => (
                             <motion.li
                               key={i}
@@ -164,12 +246,18 @@ export default function ServiceModelsSection() {
                               whileInView={{ opacity: 1, x: 0 }}
                               viewport={{ once: true }}
                               transition={{ delay: index * 0.2 + i * 0.1 }}
-                              className="flex items-center gap-2.5 text-cosmic-light/70"
+                              className="flex items-center gap-3 group/feature"
                             >
-                              <div className="w-4 h-4 rounded-full bg-cosmic-violet/20 flex items-center justify-center flex-shrink-0">
-                                <Check className="w-2.5 h-2.5 text-cosmic-violet" />
+                              {/* Enhanced check icon */}
+                              <div className="relative flex-shrink-0">
+                                <div className="w-5 h-5 rounded-lg bg-gradient-to-br from-cosmic-violet/40 to-cosmic-violet/20 backdrop-blur-sm flex items-center justify-center border border-cosmic-violet/60 shadow-sm shadow-cosmic-violet/20 group-hover/feature:scale-110 transition-transform duration-200">
+                                  <Check className="w-3 h-3 text-cosmic-violet drop-shadow-sm" />
+                                </div>
+                                <div className="absolute inset-0 rounded-lg bg-cosmic-violet/20 blur-sm opacity-0 group-hover/feature:opacity-100 transition-opacity duration-200" />
                               </div>
-                              <span className="text-sm">{feature}</span>
+                              <span className="text-sm text-cosmic-light/85 font-medium group-hover/feature:text-cosmic-light transition-colors duration-200">
+                                {feature}
+                              </span>
                             </motion.li>
                           ))}
                         </ul>
@@ -179,17 +267,17 @@ export default function ServiceModelsSection() {
                       {isMobile && (
                         <button
                           onClick={() => toggleCard(index)}
-                          className="flex items-center gap-2 mt-4 text-cosmic-violet hover:text-cosmic-cyan transition-colors text-sm font-semibold"
+                          className="flex items-center gap-2 mt-4 text-cosmic-violet hover:text-cosmic-cyan transition-all duration-200 text-sm font-semibold relative z-10 px-2 py-1 rounded-lg hover:bg-cosmic-violet/10"
                         >
                           {isExpanded ? (
                             <>
                               <span>Read less</span>
-                              <ChevronUp className="w-4 h-4" />
+                              <ChevronUp className="w-4 h-4 transition-transform duration-200" />
                             </>
                           ) : (
                             <>
                               <span>Read more</span>
-                              <ChevronDown className="w-4 h-4" />
+                              <ChevronDown className="w-4 h-4 transition-transform duration-200" />
                             </>
                           )}
                         </button>
@@ -197,15 +285,54 @@ export default function ServiceModelsSection() {
                     </div>
 
                     {/* CTA Button - Aligned at bottom */}
-                    <div className="mt-auto pt-4">
-                      <HoverBorderGradient
-                        as="a"
-                        href="#contact"
-                        containerClassName="inline-block w-full"
-                        className="text-sm font-semibold text-white px-6 py-3 w-full text-center"
+                    <div className="mt-auto pt-4 relative z-10">
+                      <motion.div
+                        whileHover={{ scale: 1.02 }}
+                        whileTap={{ scale: 0.98 }}
+                        transition={{
+                          type: "spring",
+                          stiffness: 400,
+                          damping: 17,
+                        }}
                       >
-                        Talk to us
-                      </HoverBorderGradient>
+                        <HoverBorderGradient
+                          as="a"
+                          href="#contact"
+                          containerClassName="inline-block w-full group/cta"
+                          className="text-sm font-semibold text-white px-6 py-3.5 w-full text-center shadow-lg shadow-cosmic-violet/20 flex items-center justify-center gap-2 relative"
+                        >
+                          <motion.div
+                            className="relative flex items-center justify-center w-4 h-4"
+                            whileHover={{
+                              scale: 1.2,
+                              rotate: 15,
+                              x: 2,
+                            }}
+                            transition={{
+                              type: "spring",
+                              stiffness: 500,
+                              damping: 12,
+                            }}
+                          >
+                            <Phone className="w-4 h-4 relative z-10" />
+                            {/* Glowing pulse effect on hover */}
+                            <motion.div
+                              className="absolute inset-0 rounded-full bg-cosmic-violet/40 blur-sm"
+                              initial={{ scale: 1, opacity: 0 }}
+                              whileHover={{
+                                scale: [1, 1.8, 1.4],
+                                opacity: [0, 0.5, 0],
+                              }}
+                              transition={{
+                                duration: 1.2,
+                                repeat: Infinity,
+                                ease: "easeInOut",
+                              }}
+                            />
+                          </motion.div>
+                          <span>Talk to us</span>
+                        </HoverBorderGradient>
+                      </motion.div>
                     </div>
                   </div>
                 </GlassCard>
