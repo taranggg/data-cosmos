@@ -100,15 +100,10 @@ export default function CursorTrail() {
       // update particles
       for (let i = 0; i < particles.length; i++) {
         const p = particles[i];
-        p.life *= 0.92; // decay
+        p.life *= 0.92;
       }
 
       // draw particles from oldest to newest for better layering
-      // detect theme to adapt glow colors
-      const isDark =
-        document.documentElement.classList.contains("dark") ||
-        window.matchMedia?.("(prefers-color-scheme: dark)").matches;
-
       for (let i = 0; i < particles.length; i++) {
         const p = particles[i];
         const t = i / Math.max(1, particles.length - 1);
@@ -118,18 +113,17 @@ export default function CursorTrail() {
 
         if (alpha <= 0.01) continue;
 
-        // choose colors based on theme (dark vs light)
-        const colorA = isDark
-          ? `rgba(124,58,237,${alpha})`
-          : `rgba(60,120,180,${alpha})`;
-        const colorB = isDark
-          ? `rgba(34,211,238,${alpha * 0.6})`
-          : `rgba(34,211,238,${alpha * 0.5})`;
+        const primaryRgb = "38,0,51"; // #260033
+        const accentRgb = "86,10,102"; // slightly lighter shade of #260033
+
+        const colorA = `rgba(${primaryRgb},${alpha})`;
+        const colorB = `rgba(${accentRgb},${Math.max(alpha * 0.6, 0.12)})`;
 
         const grad = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, size * 2);
         grad.addColorStop(0, colorA);
         grad.addColorStop(0.5, colorB);
-        grad.addColorStop(1, `rgba(11,15,20,0)`);
+        // fade to fully transparent version of the primary hue for smoother edge
+        grad.addColorStop(1, `rgba(${primaryRgb},0)`);
 
         ctx.fillStyle = grad;
         ctx.beginPath();

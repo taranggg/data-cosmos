@@ -597,8 +597,9 @@ export default function ProductsSection() {
         velocity.
       </p>
 
-      <HoverEffect
-        items={[
+      {/* Tabs by category with a "View all" modal. Uses the same items as before but presents them compactly. */}
+      {(() => {
+        const dpItems = [
           {
             title: "Data Engineering & Pipelines",
             description:
@@ -697,8 +698,143 @@ export default function ProductsSection() {
             link: "#",
             tag: "Adopt",
           },
-        ]}
-      />
+        ];
+
+        const tags = Array.from(new Set(dpItems.map((d) => d.tag)));
+
+        function Pane() {
+          const [active, setActive] = useState(tags[0]);
+          const [isOpen, setIsOpen] = useState(false);
+          const [modalTag, setModalTag] = useState<string | null>(null);
+          // refs to support auto-advance without re-creating intervals on every tick
+          const activeRef = useRef<string>(tags[0]);
+          const pausedRef = useRef<boolean>(false);
+
+          // keep ref in sync with active state
+          useEffect(() => {
+            activeRef.current = active;
+          }, [active]);
+
+          // auto-advance tabs every few seconds (carousel-like), but pause when modal is open or when hovered
+          useEffect(() => {
+            if (isOpen) return; // don't auto-advance while modal is open
+            const interval = setInterval(() => {
+              if (pausedRef.current) return;
+              const idx = tags.indexOf(activeRef.current);
+              const next = (idx + 1) % tags.length;
+              setActive(tags[next]);
+            }, 4500);
+            return () => clearInterval(interval);
+            // tags is stable in this closure (dpItems is constant), only depend on isOpen
+          }, [isOpen]);
+
+          useEffect(() => {
+            function onKey(e: KeyboardEvent) {
+              if (e.key === "Escape") setIsOpen(false);
+            }
+            if (isOpen) window.addEventListener("keydown", onKey);
+            return () => window.removeEventListener("keydown", onKey);
+          }, [isOpen]);
+
+          const preview = dpItems.filter((d) => d.tag === active).slice(0, 4);
+
+          return (
+            <div>
+              <div
+                className="flex items-center gap-3 mb-4 flex-wrap"
+                onMouseEnter={() => (pausedRef.current = true)}
+                onMouseLeave={() => (pausedRef.current = false)}
+              >
+                {tags.map((t) => (
+                  <button
+                    key={t}
+                    onClick={() => setActive(t)}
+                    className={`px-3 py-1 rounded-full text-sm font-semibold ${
+                      active === t
+                        ? "bg-cosmic-violet/10 text-cosmic-violet"
+                        : "bg-white/3 text-cosmic-light/80"
+                    }`}
+                  >
+                    {t}
+                  </button>
+                ))}
+                <div className="ml-auto">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setModalTag(null);
+                      setIsOpen(true);
+                    }}
+                    className="text-sm font-semibold text-cosmic-violet"
+                  >
+                    View all
+                  </button>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                {preview.map((item, idx) => (
+                  <CardSpotlight key={idx} className="p-4 rounded-2xl">
+                    <h5 className="font-semibold text-cosmic-light mb-2">
+                      {item.title}
+                    </h5>
+                    <p className="text-sm text-cosmic-light/70">
+                      {item.description}
+                    </p>
+                  </CardSpotlight>
+                ))}
+              </div>
+
+              {isOpen && (modalTag === null || modalTag) && (
+                <div
+                  role="dialog"
+                  aria-modal="true"
+                  className="fixed inset-0 z-50 flex items-center justify-center px-4"
+                >
+                  <div
+                    className="absolute inset-0 bg-black/60"
+                    onClick={() => setIsOpen(false)}
+                  />
+                  <div className="relative z-10 w-full max-w-4xl mx-auto rounded-2xl p-6 bg-gradient-to-br from-[#0b0018] via-[#120022] to-black">
+                    <div className="flex items-center justify-between ">
+                      <h3 className="text-lg font-semibold text-cosmic-light">
+                        {modalTag === null
+                          ? "All Capabilities"
+                          : `${modalTag} — Capabilities`}
+                      </h3>
+                      <button
+                        aria-label="Close"
+                        onClick={() => setIsOpen(false)}
+                        className="text-cosmic-light/70"
+                      >
+                        ✕
+                      </button>
+                    </div>
+
+                    <div className="max-h-[70vh] overflow-y-auto">
+                      <div className="rounded-xl p-2 ">
+                        <HoverEffect
+                          items={(modalTag === null
+                            ? dpItems
+                            : dpItems.filter((d) => d.tag === modalTag)
+                          ).map((d) => ({
+                            title: d.title,
+                            description: d.description,
+                            link: d.link,
+                            tag: d.tag,
+                          }))}
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
+          );
+        }
+
+        return <Pane />;
+      })()}
 
       <div className="mt-8 border-t border-white/6 pt-6">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-start">
