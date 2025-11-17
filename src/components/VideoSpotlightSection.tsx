@@ -8,17 +8,20 @@ export default function VideoSpotlightSection() {
     {
       title: "Pipeline in 60s",
       description: "See how we build data pipelines that scale",
-      videoSrc: "/app/assets/Data_Cosmos__Chaos_to_Clarity.mp4",
+      videoSrc: "/videos/Data_Cosmos__Chaos_to_Clarity.mp4",
+      posterSrc: "/DataCosmosThubmnail.png",
     },
     {
       title: "Real-Time Analytics",
       description: "Process streaming data with zero latency",
-      videoSrc: "/app/assets/SwayAnalytics__360°_Growth.mp4",
+      videoSrc: "/videos/SwayAnalytics__360°_Growth.mp4",
+      posterSrc: "/SwayAnalyticsThumbnail.png",
     },
     {
       title: "BI Dashboards",
       description: "Transform raw data into actionable insights",
-      videoSrc: "/app/assets/SaleSwayAI__Future_of_Sales_.mp4",
+      videoSrc: "/videos/SaleSwayAI__Future_of_Sales_.mp4",
+      posterSrc: "/SwaySalesThumbnail.png",
     },
   ];
 
@@ -39,7 +42,8 @@ export default function VideoSpotlightSection() {
               title={video.title}
               description={video.description}
               videoSrc={video.videoSrc}
-              delay={index * 0.2}
+              posterSrc={video.posterSrc}
+              delay={index * 0.18}
             />
           ))}
         </div>

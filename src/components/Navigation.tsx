@@ -1,9 +1,8 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
-import Link from "next/link";
 import HamburgerMenuOverlay from "./ui/hamburger-menu-overlay";
 import DataCosmosLogo from "../app/assets/DataCosmosLogo.png";
 import { HoverBorderGradient } from "./ui/hover-border-gradient";
@@ -31,12 +30,16 @@ export default function Navigation() {
     };
   }, []);
 
-  const navLinks = [
-    { name: "Products", href: "#products" },
-    { name: "Services", href: "#services" },
-    { name: "About", href: "#about" },
-    { name: "Contact", href: "#contact" },
-  ];
+  // Wrap navLinks in useMemo to fix dependency issue
+  const navLinks = useMemo(
+    () => [
+      { name: "Products", href: "#products" },
+      { name: "Services", href: "#services" },
+      { name: "About", href: "#about" },
+      { name: "Contact", href: "#contact" },
+    ],
+    []
+  );
 
   const menuItems = navLinks.map((l) => ({ label: l.name, href: l.href }));
 
@@ -92,9 +95,9 @@ export default function Navigation() {
 
     if (!elements.length) return;
 
+    // Fix type issue for IntersectionObserver entries
     const obs = new IntersectionObserver(
       (entries) => {
-        // pick the entry with largest intersectionRatio
         let best: { id: string; ratio: number } | null = null;
         entries.forEach((entry) => {
           const id = (entry.target as HTMLElement).id;
@@ -103,14 +106,14 @@ export default function Navigation() {
             if (!best || ratio > best.ratio) best = { id, ratio };
           }
         });
-        if (best) setActiveId(best.id);
+        if (best) setActiveId((best as { id: string; ratio: number }).id);
       },
       { root: null, threshold: [0.25, 0.5, 0.75] }
     );
 
     elements.forEach((p) => obs.observe(p.el));
     return () => obs.disconnect();
-  }, []);
+  }, [navLinks]);
 
   return (
     <motion.nav
@@ -124,7 +127,7 @@ export default function Navigation() {
       className={outerClassName}
       style={{
         position: "fixed",
-        zIndex: 50,
+        zIndex: 40, // Lower than modal
         WebkitBackdropFilter: "blur(12px)",
         backgroundClip: "padding-box",
       }}

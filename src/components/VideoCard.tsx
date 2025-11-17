@@ -29,51 +29,63 @@ export default function VideoCard({
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.6, delay }}
-        className="group relative overflow-hidden rounded-3xl cursor-pointer glass-card glass-card-hover"
+        className="group relative overflow-hidden rounded-3xl cursor-pointer"
         onClick={() => setIsModalOpen(true)}
       >
-        <div className="relative aspect-video overflow-hidden bg-cosmic-darker">
+        <div
+          className="relative aspect-video overflow-hidden rounded-2xl bg-cosmic-darker border border-white/6"
+          style={
+            posterSrc
+              ? {
+                  backgroundImage: `url(${posterSrc})`,
+                  backgroundSize: "cover",
+                  backgroundPosition: "center",
+                }
+              : undefined
+          }
+        >
+          {/* translucent overlay to ensure readability */}
+          <div className="absolute inset-0 bg-black/30 group-hover:bg-black/40 transition-colors duration-300" />
+
+          {/* Video element (plays on hover) - keep it but allow poster/background to show when not playing */}
           <video
             poster={posterSrc}
             muted
             loop
             playsInline
-            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105 relative z-10"
             onMouseEnter={(e) => e.currentTarget.play()}
-            onMouseLeave={(e) => {
-              e.currentTarget.pause();
-              e.currentTarget.currentTime = 0;
+            onMouseLeave={() => {
+              // Removed pause and currentTime reset logic to avoid conflicts
             }}
           >
             <source src={videoSrc} type="video/mp4" />
           </video>
 
-          {/* Overlay */}
-          <div className="absolute inset-0 bg-gradient-to-t from-cosmic-dark via-transparent to-transparent opacity-60 group-hover:opacity-40 transition-opacity duration-300" />
-
-          {/* Play Button */}
-          <div className="absolute inset-0 flex items-center justify-center">
-            <motion.div
-              whileHover={{ scale: 1.1 }}
-              className="w-20 h-20 rounded-full bg-cosmic-violet/80 backdrop-blur-sm flex items-center justify-center border-2 border-cosmic-cyan group-hover:bg-cosmic-violet transition-all duration-300 accent-glow"
+          {/* Play Button - glass morphism */}
+          <div className="absolute inset-0 flex items-center justify-center z-20 pointer-events-none">
+            <button
+              aria-label={`Play ${title}`}
+              className="pointer-events-auto w-20 h-20 rounded-full bg-white/8 backdrop-blur-md border border-white/10 flex items-center justify-center transition-transform duration-200 hover:scale-105"
             >
-              <Play className="w-8 h-8 text-white ml-1" fill="white" />
-            </motion.div>
-          </div>
-
-          {/* Caption */}
-          <div className="absolute bottom-4 left-4 right-4">
-            <h3 className="text-2xl font-heading font-bold text-white mb-2">
-              {title}
-            </h3>
-            {description && (
-              <p className="text-sm text-cosmic-light/80 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                {description}
-              </p>
-            )}
+              {/* <div className="w-14 h-14 rounded-full bg-gradient-to-br from-cosmic-violet/80 to-cosmic-cyan/40 flex items-center justify-center shadow-[inset_0_2px_8px_rgba(0,0,0,0.3)]"> */}
+              <Play className="w-7 h-7 text-black ml-0.5" />
+              {/* </div> */}
+            </button>
           </div>
         </div>
       </motion.div>
+      {/* Caption */}
+      {/* <div className="absolute bottom-4 left-4 right-4 z-30">
+        <h3 className="text-2xl font-heading font-bold text-white mb-2">
+          {title}
+        </h3>
+        {description && (
+          <p className="text-sm text-cosmic-light/80 opacity-90">
+            {description}
+          </p>
+        )}
+      </div> */}
 
       <VideoModal
         isOpen={isModalOpen}
