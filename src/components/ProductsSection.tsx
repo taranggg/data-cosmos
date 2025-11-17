@@ -8,6 +8,7 @@ import { HoverEffect } from "./ui/card-hover-effect";
 import { HoverBorderGradient } from "./ui/hover-border-gradient";
 import { DottedGlowBackground } from "./ui/dotted-glow-background";
 import { Check } from "lucide-react";
+import { scrollToElement } from "../lib/utils";
 
 interface Product {
   name: string;
@@ -345,8 +346,16 @@ export default function ProductsSection() {
           as="button"
           containerClassName="inline-block"
           className="text-sm font-semibold text-white px-6 py-3"
+          onClick={() =>
+            // focus the name field and highlight
+            scrollToElement("contact-form", {
+              focus: true,
+              focusSelector: "input[name=name]",
+              highlightClass: "contact-flash animate",
+            })
+          }
         >
-          Request SaleSway demo
+          Request SwaySales demo
         </HoverBorderGradient>
       </div>
     </div>
@@ -591,6 +600,13 @@ export default function ProductsSection() {
           as="button"
           containerClassName="inline-block"
           className="text-sm font-semibold text-white px-6 py-3"
+          onClick={() =>
+            scrollToElement("contact-form", {
+              focus: true,
+              focusSelector: "input[name=name]",
+              highlightClass: "contact-flash animate",
+            })
+          }
         >
           Request SwayAnalytics demo
         </HoverBorderGradient>
@@ -898,6 +914,14 @@ export default function ProductsSection() {
                 <HoverBorderGradient
                   as="a"
                   href="#contact"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    scrollToElement("contact-form", {
+                      focus: true,
+                      focusSelector: "input[name=name]",
+                      highlightClass: "contact-flash animate",
+                    });
+                  }}
                   containerClassName="inline-block"
                   className="text-sm font-semibold text-white px-5 py-2"
                 >

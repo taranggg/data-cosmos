@@ -2,6 +2,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { cn } from "../lib/utils";
+import { scrollToElement } from "../../lib/utils";
 import { Menu, X } from "lucide-react";
 
 export interface MenuItem {
@@ -130,11 +131,14 @@ export const HamburgerMenuOverlay: React.FC<HamburgerMenuOverlayProps> = ({
         const isInternal = item.href.startsWith("/") || isHash;
         if (isHash) {
           const id = item.href.slice(1);
-          const el = document.getElementById(id);
-          if (el) {
-            el.scrollIntoView({ behavior: "smooth", block: "start" });
-          } else {
-            // fallback to push so hash changes if element not found
+          // use helper so offset + focus + highlight are applied consistently
+          scrollToElement(id, {
+            focus: id === "contact-form",
+            highlightClass:
+              id === "contact-form" ? "contact-flash animate" : undefined,
+          });
+          // push hash for history when element not found will be handled by helper fallback
+          if (!document.getElementById(id)) {
             router.push(item.href);
           }
         } else if (isInternal) {

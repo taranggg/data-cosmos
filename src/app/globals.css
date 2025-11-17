@@ -279,6 +279,23 @@ body {
   background: transparent;
 }
 
+/* Temporary highlight/flash used when jumping to forms */
+.contact-flash {
+  box-shadow: 0 0 0 4px rgba(124,58,237,0.14), 0 8px 40px rgba(124,58,237,0.12);
+  transition: box-shadow 0.35s ease-in-out, transform 0.2s ease;
+  transform: translateY(-2px);
+}
+
+@keyframes contact-pulse {
+  0% { box-shadow: 0 0 0 0 rgba(124,58,237,0.16); }
+  50% { box-shadow: 0 0 0 12px rgba(124,58,237,0.04); }
+  100% { box-shadow: 0 0 0 0 rgba(124,58,237,0.0); }
+}
+
+.contact-flash.animate {
+  animation: contact-pulse 1.6s ease-out forwards;
+}
+
 /* Use Aceternity Meteors animation so Tailwind v4 setups work */
 @keyframes meteor {
   0% {

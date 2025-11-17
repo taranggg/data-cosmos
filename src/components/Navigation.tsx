@@ -7,10 +7,12 @@ import Link from "next/link";
 import HamburgerMenuOverlay from "./ui/hamburger-menu-overlay";
 import DataCosmosLogo from "../app/assets/DataCosmosLogo.png";
 import { HoverBorderGradient } from "./ui/hover-border-gradient";
+import { scrollToElement } from "../lib/utils";
 
 export default function Navigation() {
   const [shrunk, setShrunk] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
+  const [activeId, setActiveId] = useState<string | null>(null);
 
   useEffect(() => {
     const onScroll = () => {
@@ -66,13 +68,11 @@ export default function Navigation() {
   const contentClass = `${contentMobile} ${mdPrefix(contentDesktop)}`;
 
   function scrollToId(id: string) {
-    const el = document.getElementById(id);
-    if (el) {
-      el.scrollIntoView({ behavior: "smooth", block: "start" });
-    } else {
-      // fallback to hash
-      window.location.hash = id;
-    }
+    scrollToElement(id, {
+      focus: id === "contact-form",
+      highlightClass:
+        id === "contact-form" ? "contact-flash animate" : undefined,
+    });
   }
 
   function handleAnchorClick(e: React.MouseEvent, href: string) {
@@ -82,6 +82,35 @@ export default function Navigation() {
       scrollToId(id);
     }
   }
+
+  // Observe sections to set active nav item while scrolling
+  useEffect(() => {
+    const ids = ["home", ...navLinks.map((l) => l.href.replace(/^#/, ""))];
+    const elements = ids
+      .map((id) => ({ id, el: document.getElementById(id) }))
+      .filter((p) => p.el) as { id: string; el: HTMLElement }[];
+
+    if (!elements.length) return;
+
+    const obs = new IntersectionObserver(
+      (entries) => {
+        // pick the entry with largest intersectionRatio
+        let best: { id: string; ratio: number } | null = null;
+        entries.forEach((entry) => {
+          const id = (entry.target as HTMLElement).id;
+          if (entry.isIntersecting) {
+            const ratio = entry.intersectionRatio || 0;
+            if (!best || ratio > best.ratio) best = { id, ratio };
+          }
+        });
+        if (best) setActiveId(best.id);
+      },
+      { root: null, threshold: [0.25, 0.5, 0.75] }
+    );
+
+    elements.forEach((p) => obs.observe(p.el));
+    return () => obs.disconnect();
+  }, []);
 
   return (
     <motion.nav
@@ -137,9 +166,12 @@ export default function Navigation() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: index * 0.06 }}
               className={
-                shrunk
+                (shrunk
                   ? "relative px-3 py-2 rounded-full text-sm font-medium text-cosmic-light/80 hover:bg-white/8 hover:text-cosmic-light transition-colors duration-200"
-                  : "relative px-4 py-3 rounded-full text-base font-medium text-cosmic-light/90 hover:bg-white/8 hover:text-cosmic-light transition-colors duration-200"
+                  : "relative px-4 py-3 rounded-full text-base font-medium text-cosmic-light/90 hover:bg-white/8 hover:text-cosmic-light transition-colors duration-200") +
+                (activeId === link.href.replace(/^#/, "")
+                  ? " bg-white/8 text-white ring-1 ring-cosmic-violet/30"
+                  : "")
               }
             >
               {link.name}
@@ -147,7 +179,7 @@ export default function Navigation() {
           ))}
 
           <HoverBorderGradient
-            onClick={() => (window.location.hash = "get-started")}
+            onClick={() => scrollToId("contact-form")}
             containerClassName={shrunk ? "rounded-full" : "rounded-full"}
             className={
               shrunk

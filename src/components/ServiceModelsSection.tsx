@@ -17,6 +17,7 @@ import {
   Phone,
 } from "lucide-react";
 import { createElement } from "react";
+import { scrollToElement } from "../lib/utils";
 
 const gradientMapping: Record<string, string> = {
   blue: "linear-gradient(hsl(223, 90%, 50%), hsl(208, 90%, 50%))",
@@ -263,6 +264,14 @@ const TalkToUsButton: React.FC = () => (
       <HoverBorderGradient
         as="a"
         href="#contact"
+        onClick={(e: React.MouseEvent) => {
+          e.preventDefault();
+          scrollToElement("contact-form", {
+            focus: true,
+            focusSelector: "input[name=name]",
+            highlightClass: "contact-flash animate",
+          });
+        }}
         containerClassName="inline-block w-full group/cta"
         className="text-sm font-semibold text-white px-6 py-3.5 w-full text-center shadow-lg shadow-cosmic-violet/20 flex items-center justify-center gap-2 relative"
       >
