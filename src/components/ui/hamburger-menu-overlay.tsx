@@ -126,9 +126,18 @@ export const HamburgerMenuOverlay: React.FC<HamburgerMenuOverlayProps> = ({
     if (item.href && !item.onClick) {
       // Use Next.js router for client-side navigation when possible
       try {
-        const isInternal =
-          item.href.startsWith("/") || item.href.startsWith("#");
-        if (isInternal) {
+        const isHash = item.href.startsWith("#");
+        const isInternal = item.href.startsWith("/") || isHash;
+        if (isHash) {
+          const id = item.href.slice(1);
+          const el = document.getElementById(id);
+          if (el) {
+            el.scrollIntoView({ behavior: "smooth", block: "start" });
+          } else {
+            // fallback to push so hash changes if element not found
+            router.push(item.href);
+          }
+        } else if (isInternal) {
           router.push(item.href);
         } else {
           // external URL — use full navigation via assign (avoid direct href assignment)

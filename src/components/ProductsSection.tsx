@@ -912,7 +912,10 @@ export default function ProductsSection() {
   );
 
   return (
-    <section className="py-32 px-6 relative overflow-hidden bg-cosmic-darker">
+    <section
+      id="products"
+      className="py-32 px-6 relative overflow-hidden bg-cosmic-darker"
+    >
       <div className="relative z-10 max-w-7xl mx-auto">
         <SectionTitle>Products & Platforms.</SectionTitle>
 

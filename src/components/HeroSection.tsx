@@ -10,6 +10,7 @@ export default function HeroSection() {
 
   return (
     <section
+      id="home"
       ref={ref}
       className="relative h-screen w-full overflow-hidden bg-transparent"
     >

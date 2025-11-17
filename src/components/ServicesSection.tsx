@@ -107,7 +107,11 @@ export default function ServicesSection() {
   };
 
   return (
-    <section ref={containerRef} className="py-32 px-6 relative overflow-hidden">
+    <section
+      id="services"
+      ref={containerRef}
+      className="py-32 px-6 relative overflow-hidden"
+    >
       {/* Decorative background: connecting lines + colored dots */}
       <div className="absolute inset-0 pointer-events-none z-0">
         <svg
@@ -266,7 +270,7 @@ export default function ServicesSection() {
                 <p className="text-cosmic-light/70 leading-relaxed">
                   {service.description}
                 </p>
-                <div className="mt-6">
+                {/* <div className="mt-6">
                   <a
                     href="#"
                     onClick={(e) => e.preventDefault()}
@@ -277,7 +281,7 @@ export default function ServicesSection() {
                     </span>
                     <ArrowRight className="w-4 h-4 text-cosmic-light/70 group-hover:text-white transition-transform group-hover:translate-x-1" />
                   </a>
-                </div>
+                </div> */}
               </GlassCard>
             </div>
           ))}

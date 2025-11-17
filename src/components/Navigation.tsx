@@ -65,6 +65,24 @@ export default function Navigation() {
   const outerClassName = `${outerMobile} ${mdPrefix(outerDesktop)}`;
   const contentClass = `${contentMobile} ${mdPrefix(contentDesktop)}`;
 
+  function scrollToId(id: string) {
+    const el = document.getElementById(id);
+    if (el) {
+      el.scrollIntoView({ behavior: "smooth", block: "start" });
+    } else {
+      // fallback to hash
+      window.location.hash = id;
+    }
+  }
+
+  function handleAnchorClick(e: React.MouseEvent, href: string) {
+    if (href.startsWith("#")) {
+      e.preventDefault();
+      const id = href.slice(1);
+      scrollToId(id);
+    }
+  }
+
   return (
     <motion.nav
       initial={false}
@@ -92,7 +110,12 @@ export default function Navigation() {
           initial={{ opacity: 0, x: -12 }}
           animate={{ opacity: 1, x: 0 }}
         >
-          <Link href="/" className="inline-flex">
+          <button
+            type="button"
+            onClick={() => scrollToId("home")}
+            className="inline-flex"
+            aria-label="Go to top"
+          >
             <Image
               src={DataCosmosLogo}
               alt="Data Cosmos"
@@ -100,7 +123,7 @@ export default function Navigation() {
               height={180}
               className="rounded-lg object-cover w-[110px] md:w-[200px] h-auto"
             />
-          </Link>
+          </button>
         </motion.div>
 
         {/* Desktop Navigation */}
@@ -109,6 +132,7 @@ export default function Navigation() {
             <motion.a
               key={link.name}
               href={link.href}
+              onClick={(e: React.MouseEvent) => handleAnchorClick(e, link.href)}
               initial={{ opacity: 0, y: -6 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: index * 0.06 }}
