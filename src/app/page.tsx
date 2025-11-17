@@ -8,7 +8,6 @@ import ClientsSection from "@/components/ClientsSection";
 import AboutSection from "@/components/AboutSection";
 import WhyChooseUsSection from "@/components/WhyChooseUsSection";
 import ContactSection from "@/components/ContactSection";
-import CTASection from "@/components/CTASection";
 import Footer from "@/components/Footer";
 import Particles from "@/components/ui/Particles";
 
@@ -44,7 +43,6 @@ export default function Home() {
         <AboutSection />
         <WhyChooseUsSection />
         <ContactSection />
-        <CTASection />
         <Footer />
       </div>
     </main>
