@@ -59,12 +59,11 @@ export default function AboutSection() {
   ];
 
   return (
-    <section id="about" className="py-28 px-6 relative overflow-hidden">
+    <section id="about" className="py-16 pb-34 px-6 relative overflow-hidden">
       <div className="absolute inset-0 cosmic-bg opacity-60" />
 
       <div className="relative z-10 max-w-7xl mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-          {/* Left - Content */}
           <div>
             <motion.div
               initial={{ opacity: 0, x: -20 }}

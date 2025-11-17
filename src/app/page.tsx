@@ -6,7 +6,7 @@ import ServicesSection from "@/components/ServicesSection";
 import ServiceModelsSection from "@/components/ServiceModelsSection";
 import ClientsSection from "@/components/ClientsSection";
 import AboutSection from "@/components/AboutSection";
-import WhyChooseUsSection from "@/components/WhyChooseUsSection";
+import PricingSection from "@/components/PricingSection";
 import ContactSection from "@/components/ContactSection";
 import Footer from "@/components/Footer";
 import Particles from "@/components/ui/Particles";
@@ -41,7 +41,7 @@ export default function Home() {
         <ServiceModelsSection />
         <ClientsSection />
         <AboutSection />
-        <WhyChooseUsSection />
+        <PricingSection />
         <ContactSection />
         <Footer />
       </div>
