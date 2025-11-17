@@ -6,19 +6,19 @@ import VideoCard from "./VideoCard";
 export default function VideoSpotlightSection() {
   const videos = [
     {
-      title: "Pipeline in 60s",
-      description: "See how we build data pipelines that scale",
-      videoSrc: "/videos/Data_Cosmos__Chaos_to_Clarity.mp4",
-      posterSrc: "/DataCosmosThubmnail.png",
-    },
-    {
-      title: "Real-Time Analytics",
+      title: "SwayAnalytics: 360° Growth",
       description: "Process streaming data with zero latency",
       videoSrc: "/videos/SwayAnalytics__360°_Growth.mp4",
       posterSrc: "/SwayAnalyticsThumbnail.png",
     },
     {
-      title: "BI Dashboards",
+      title: "Data Cosmos: Chaos to Clarity",
+      description: "See how we build data pipelines that scale",
+      videoSrc: "/videos/Data_Cosmos__Chaos_to_Clarity.mp4",
+      posterSrc: "/DataCosmosThubmnail.png",
+    },
+    {
+      title: "SwaySale AI:Future of Sales?",
       description: "Transform raw data into actionable insights",
       videoSrc: "/videos/SaleSwayAI__Future_of_Sales_.mp4",
       posterSrc: "/SwaySalesThumbnail.png",

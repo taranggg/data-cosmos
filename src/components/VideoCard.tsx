@@ -1,8 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { motion } from "framer-motion";
-import { Play } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Play, Pause } from "lucide-react";
 import VideoModal from "./VideoModal";
 
 interface VideoCardProps {
@@ -21,6 +21,8 @@ export default function VideoCard({
   delay = 0,
 }: VideoCardProps) {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [isHovered, setIsHovered] = useState(false);
 
   return (
     <>
@@ -31,6 +33,8 @@ export default function VideoCard({
         transition={{ duration: 0.6, delay }}
         className="group relative overflow-hidden rounded-3xl cursor-pointer"
         onClick={() => setIsModalOpen(true)}
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
       >
         <div
           className="relative aspect-video overflow-hidden rounded-2xl bg-cosmic-darker border border-white/6"
@@ -54,25 +58,55 @@ export default function VideoCard({
             loop
             playsInline
             className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105 relative z-10"
+            onPlay={() => setIsPlaying(true)}
+            onPause={() => setIsPlaying(false)}
             onMouseEnter={(e) => e.currentTarget.play()}
-            onMouseLeave={() => {
-              // Removed pause and currentTime reset logic to avoid conflicts
+            onMouseLeave={(e) => {
+              const videoElement = e.currentTarget;
+              if (videoElement && !videoElement.paused) {
+                videoElement.pause();
+                videoElement.currentTime = 0;
+              }
             }}
           >
             <source src={videoSrc} type="video/mp4" />
           </video>
 
-          {/* Play Button - glass morphism */}
-          <div className="absolute inset-0 flex items-center justify-center z-20 pointer-events-none">
-            <button
-              aria-label={`Play ${title}`}
-              className="pointer-events-auto w-20 h-20 rounded-full bg-white/8 backdrop-blur-md border border-white/10 flex items-center justify-center transition-transform duration-200 hover:scale-105"
-            >
-              {/* <div className="w-14 h-14 rounded-full bg-gradient-to-br from-cosmic-violet/80 to-cosmic-cyan/40 flex items-center justify-center shadow-[inset_0_2px_8px_rgba(0,0,0,0.3)]"> */}
-              <Play className="w-7 h-7 text-black ml-0.5" />
-              {/* </div> */}
-            </button>
-          </div>
+          {/* Play/Pause Button - shows play when not playing, pause only when playing AND hovering */}
+          <AnimatePresence>
+            {!isPlaying && (
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.2 }}
+                className="absolute inset-0 flex items-center justify-center z-20 pointer-events-none"
+              >
+                <button
+                  aria-label={`Play ${title}`}
+                  className="pointer-events-auto w-20 h-20 rounded-full bg-white/8 backdrop-blur-md border border-white/10 flex items-center justify-center transition-transform duration-200 hover:scale-105"
+                >
+                  <Play className="w-7 h-7 text-black ml-0.5" />
+                </button>
+              </motion.div>
+            )}
+            {isPlaying && isHovered && (
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.2 }}
+                className="absolute inset-0 flex items-center justify-center z-20 pointer-events-none"
+              >
+                <button
+                  aria-label={`Pause ${title}`}
+                  className="pointer-events-auto w-20 h-20 rounded-full bg-white/8 backdrop-blur-md border border-white/10 flex items-center justify-center transition-transform duration-200 hover:scale-105"
+                >
+                  <Pause className="w-7 h-7 text-black" />
+                </button>
+              </motion.div>
+            )}
+          </AnimatePresence>
         </div>
       </motion.div>
       {/* Caption */}

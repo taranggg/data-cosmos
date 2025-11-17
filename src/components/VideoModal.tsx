@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X } from "lucide-react";
 
@@ -17,14 +17,20 @@ export default function VideoModal({
   videoSrc,
   title,
 }: VideoModalProps) {
+  const [isPaused, setIsPaused] = useState(false);
+  const videoRef = useRef<HTMLVideoElement>(null);
   useEffect(() => {
+    const nav = document.querySelector("nav");
     if (isOpen) {
       document.body.style.overflow = "hidden";
+      if (nav) (nav as HTMLElement).style.display = "none";
     } else {
       document.body.style.overflow = "unset";
+      if (nav) (nav as HTMLElement).style.display = "";
     }
     return () => {
       document.body.style.overflow = "unset";
+      if (nav) (nav as HTMLElement).style.display = "";
     };
   }, [isOpen]);
 
@@ -35,7 +41,8 @@ export default function VideoModal({
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          className="fixed inset-0 z-[9999] flex items-center justify-center p-4 bg-black/90 backdrop-blur-sm"
+          className="fixed inset-0 z-[9999] flex items-center justify-center p-4 bg-black"
+          style={{ backgroundColor: "rgba(0, 0, 0, 0.98)" }}
           onClick={onClose}
         >
           <motion.div
@@ -56,15 +63,34 @@ export default function VideoModal({
 
             {/* Video Container */}
             <div className="relative aspect-video rounded-3xl overflow-hidden glass-card">
-              <video src={videoSrc} controls autoPlay className="w-full h-full">
+              <video
+                ref={videoRef}
+                src={videoSrc}
+                controls
+                autoPlay
+                className="w-full h-full"
+                onPlay={() => setIsPaused(false)}
+                onPause={() => setIsPaused(true)}
+              >
                 <source src={videoSrc} type="video/mp4" />
               </video>
-            </div>
 
-            {/* Title */}
-            <h3 className="text-2xl font-heading font-bold text-white mt-4 text-center">
-              {title}
-            </h3>
+              {/* Title overlay - only visible when paused */}
+              <AnimatePresence>
+                {isPaused && (
+                  <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    className="absolute inset-0 flex items-center justify-center bg-black/50 backdrop-blur-md pointer-events-none"
+                  >
+                    <h3 className="text-3xl font-heading font-bold text-white px-8 text-center">
+                      {title}
+                    </h3>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
           </motion.div>
         </motion.div>
       )}
