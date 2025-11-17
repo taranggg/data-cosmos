@@ -95,7 +95,6 @@ export default function Navigation() {
 
     if (!elements.length) return;
 
-    // Fix type issue for IntersectionObserver entries
     const obs = new IntersectionObserver(
       (entries) => {
         let best: { id: string; ratio: number } | null = null;
