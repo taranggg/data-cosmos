@@ -1,25 +1,32 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X } from "lucide-react";
+import { motion } from "framer-motion";
 import Image from "next/image";
+import Link from "next/link";
+import HamburgerMenuOverlay from "./ui/hamburger-menu-overlay";
 import DataCosmosLogo from "../app/assets/DataCosmosLogo.png";
 import { HoverBorderGradient } from "./ui/hover-border-gradient";
 
 export default function Navigation() {
-  const [isOpen, setIsOpen] = useState(false);
   const [shrunk, setShrunk] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
 
-  // shrink navbar when user scrolls down past threshold
   useEffect(() => {
     const onScroll = () => {
       const y = window.scrollY || window.pageYOffset;
       setShrunk(y > 36);
     };
+    const onResize = () => setIsMobile(window.innerWidth < 768);
+
     onScroll();
+    onResize();
     window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
+    window.addEventListener("resize", onResize);
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onResize);
+    };
   }, []);
 
   const navLinks = [
@@ -29,21 +36,42 @@ export default function Navigation() {
     { name: "Contact", href: "#contact" },
   ];
 
-  const outerClassName = shrunk
+  const menuItems = navLinks.map((l) => ({ label: l.name, href: l.href }));
+
+  // Desktop classes (applied at md and above). Keep existing behaviors.
+  const outerDesktop = shrunk
     ? "rounded-full backdrop-blur-xl bg-white/6 dark:bg-black/20 border border-white/8 dark:border-black/20 border-t border-white/20 shadow-lg"
     : "backdrop-blur-xl bg-white/6 dark:bg-black/20 border-b border-white/6 dark:border-black/10 shadow-none";
 
-  const contentClass = shrunk
+  const contentDesktop = shrunk
     ? "max-w-7xl mx-auto flex items-center justify-between px-4 py-2"
     : "max-w-7xl mx-auto flex items-center justify-between py-4 px-6";
+
+  // Mobile (base) classes: keep navbar non-transparent and fixed at top.
+  const outerMobile = shrunk
+    ? "backdrop-blur-xl bg-white/6 dark:bg-black/20 border-b border-white/8 dark:border-black/20 shadow-sm"
+    : "backdrop-blur-xl bg-white/6 dark:bg-black/20 border-b border-white/6 dark:border-black/10 shadow-none";
+
+  const contentMobile =
+    "max-w-7xl mx-auto flex items-center justify-between px-4 py-3";
+
+  // Helper to prefix desktop classes with md:
+  const mdPrefix = (str: string) =>
+    str
+      .split(/\s+/)
+      .map((c) => `md:${c}`)
+      .join(" ");
+
+  const outerClassName = `${outerMobile} ${mdPrefix(outerDesktop)}`;
+  const contentClass = `${contentMobile} ${mdPrefix(contentDesktop)}`;
 
   return (
     <motion.nav
       initial={false}
       animate={{
-        left: shrunk ? 160 : 0,
-        right: shrunk ? 160 : 0,
-        top: shrunk ? 24 : 0,
+        left: !isMobile && shrunk ? 160 : 0,
+        right: !isMobile && shrunk ? 160 : 0,
+        top: !isMobile && shrunk ? 24 : 0,
       }}
       transition={{ type: "spring", stiffness: 300, damping: 30 }}
       className={outerClassName}
@@ -54,27 +82,26 @@ export default function Navigation() {
         backgroundClip: "padding-box",
       }}
     >
-      {/* border light removed */}
       <motion.div
         initial={false}
         transition={{ type: "spring", stiffness: 300, damping: 30 }}
         className={contentClass}
       >
         {/* Logo */}
-        <motion.a
-          href="/"
+        <motion.div
           initial={{ opacity: 0, x: -12 }}
           animate={{ opacity: 1, x: 0 }}
         >
-          {/* Logo image (loaded from src/app/assets/DataCosmosLogo.png) */}
-          <Image
-            src={DataCosmosLogo}
-            alt="Data Cosmos"
-            width={shrunk ? 150 : 200}
-            height={shrunk ? 140 : 180}
-            className="rounded-lg object-cover"
-          />
-        </motion.a>
+          <Link href="/" className="inline-flex">
+            <Image
+              src={DataCosmosLogo}
+              alt="Data Cosmos"
+              width={200}
+              height={180}
+              className="rounded-lg object-cover w-[110px] md:w-[200px] h-auto"
+            />
+          </Link>
+        </motion.div>
 
         {/* Desktop Navigation */}
         <div className="hidden md:flex items-center gap-4">
@@ -109,59 +136,26 @@ export default function Navigation() {
           </HoverBorderGradient>
         </div>
 
-        {/* Mobile Menu Button */}
-        <div className="md:hidden">
-          <button
-            onClick={() => setIsOpen(!isOpen)}
-            aria-label="Toggle menu"
-            className={
-              shrunk
-                ? "w-9 h-9 rounded-lg bg-white/4 flex items-center justify-center border border-white/8 backdrop-blur-sm"
-                : "w-10 h-10 rounded-lg bg-white/4 flex items-center justify-center border border-white/8 backdrop-blur-sm"
-            }
-          >
-            {isOpen ? (
-              <X className="w-6 h-6 text-cosmic-light" />
-            ) : (
-              <Menu className="w-6 h-6 text-cosmic-light" />
-            )}
-          </button>
+        {/* Mobile: use shared HamburgerMenuOverlay component (renders its own button) */}
+        <div className="md:hidden relative">
+          <HamburgerMenuOverlay
+            items={menuItems}
+            buttonTop="20px"
+            buttonLeft="calc(100% - 40px)"
+            buttonSize="md"
+            overlayBackground="rgba(10,11,13,0.96)"
+            textColor="#ffffff"
+            fontSize="md"
+            animationDuration={0.35}
+            staggerDelay={0.06}
+            menuAlignment="center"
+            menuDirection="vertical"
+            enableBlur={false}
+            zIndex={60}
+            className="w-full h-full"
+          />
         </div>
       </motion.div>
-
-      {/* Mobile Navigation Panel */}
-      <AnimatePresence>
-        {isOpen && (
-          <motion.div
-            initial={{ opacity: 0, y: -8 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -8 }}
-            className="md:hidden mt-3"
-          >
-            <div className="rounded-xl p-4 backdrop-blur-lg bg-white/6 dark:bg-black/20 border border-white/8 dark:border-black/20 shadow">
-              <div className="space-y-3">
-                {navLinks.map((link) => (
-                  <a
-                    key={link.name}
-                    href={link.href}
-                    onClick={() => setIsOpen(false)}
-                    className="block px-4 py-2 rounded-md text-base font-medium text-cosmic-light/80 hover:bg-white/8"
-                  >
-                    {link.name}
-                  </a>
-                ))}
-                <HoverBorderGradient
-                  onClick={() => (window.location.hash = "get-started")}
-                  className="w-full rounded-full"
-                  duration={0.9}
-                >
-                  Get Started
-                </HoverBorderGradient>
-              </div>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
     </motion.nav>
   );
 }
