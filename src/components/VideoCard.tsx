@@ -25,6 +25,8 @@ export default function VideoCard({
   const [isHovered, setIsHovered] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
 
+  const scale = isHovered ? 1.08 : 0.92;
+
   useEffect(() => {
     const handler = (e: CustomEvent) => {
       if (videoRef.current && e.detail !== videoRef.current) {
@@ -44,6 +46,7 @@ export default function VideoCard({
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.6, delay }}
+        animate={{ scale }}
         className="group relative overflow-hidden rounded-3xl cursor-pointer"
         onClick={() => setIsModalOpen(true)}
         onMouseEnter={() => setIsHovered(true)}
