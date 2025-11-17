@@ -2,11 +2,11 @@
 import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import SectionTitle from "./SectionTitle";
-import { CardSpotlight } from "./ui/card-spotlight";
 import GlassCard from "./GlassCard";
 import ExpandableCardGrid from "./expandable-card-grid";
 import { HoverEffect } from "./ui/card-hover-effect";
 import { HoverBorderGradient } from "./ui/hover-border-gradient";
+import { DottedGlowBackground } from "./ui/dotted-glow-background";
 import { Check } from "lucide-react";
 
 interface Product {
@@ -137,10 +137,24 @@ export default function ProductsSection() {
   const ProductsGrid = ({ items }: { items: Product[] }) => (
     <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
       {items.map((product, index) => (
-        <CardSpotlight
+        <GlassCard
           key={index}
-          className="p-8 h-full rounded-3xl flex flex-col"
+          className="p-8 h-full rounded-3xl flex flex-col relative"
         >
+          <div className="absolute inset-0 rounded-3xl overflow-hidden z-0 pointer-events-none">
+            <DottedGlowBackground
+              gap={12}
+              radius={2}
+              color="rgba(124, 58, 237, 0.3)"
+              glowColor="rgba(124, 58, 237, 0.9)"
+              opacity={0.8}
+              backgroundOpacity={0.1}
+              speedMin={0.4}
+              speedMax={1.2}
+              speedScale={0.8}
+            />
+          </div>
+
           <div className="flex flex-col">
             <div className="min-h-[4.5rem]">
               <h3 className="text-3xl font-heading font-bold text-cosmic-light mb-3">
@@ -169,7 +183,7 @@ export default function ProductsSection() {
               </motion.li>
             ))}
           </ul>
-        </CardSpotlight>
+        </GlassCard>
       ))}
     </div>
   );
@@ -597,7 +611,6 @@ export default function ProductsSection() {
         velocity.
       </p>
 
-      {/* Tabs by category with a "View all" modal. Uses the same items as before but presents them compactly. */}
       {(() => {
         const dpItems = [
           {
@@ -706,18 +719,15 @@ export default function ProductsSection() {
           const [active, setActive] = useState(tags[0]);
           const [isOpen, setIsOpen] = useState(false);
           const [modalTag, setModalTag] = useState<string | null>(null);
-          // refs to support auto-advance without re-creating intervals on every tick
           const activeRef = useRef<string>(tags[0]);
           const pausedRef = useRef<boolean>(false);
 
-          // keep ref in sync with active state
           useEffect(() => {
             activeRef.current = active;
           }, [active]);
 
-          // auto-advance tabs every few seconds (carousel-like), but pause when modal is open or when hovered
           useEffect(() => {
-            if (isOpen) return; // don't auto-advance while modal is open
+            if (isOpen) return;
             const interval = setInterval(() => {
               if (pausedRef.current) return;
               const idx = tags.indexOf(activeRef.current);
@@ -725,7 +735,6 @@ export default function ProductsSection() {
               setActive(tags[next]);
             }, 4500);
             return () => clearInterval(interval);
-            // tags is stable in this closure (dpItems is constant), only depend on isOpen
           }, [isOpen]);
 
           useEffect(() => {
@@ -774,14 +783,32 @@ export default function ProductsSection() {
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 {preview.map((item, idx) => (
-                  <CardSpotlight key={idx} className="p-4 rounded-2xl">
-                    <h5 className="font-semibold text-cosmic-light mb-2">
-                      {item.title}
-                    </h5>
-                    <p className="text-sm text-cosmic-light/70">
-                      {item.description}
-                    </p>
-                  </CardSpotlight>
+                  <GlassCard
+                    key={idx}
+                    className="p-4 rounded-2xl relative overflow-hidden"
+                  >
+                    <div className="absolute inset-0 rounded-2xl overflow-hidden z-0 pointer-events-none">
+                      <DottedGlowBackground
+                        gap={12}
+                        radius={2}
+                        color="rgba(124, 58, 237, 0.18)"
+                        glowColor="rgba(124, 58, 237, 0.85)"
+                        opacity={0.7}
+                        backgroundOpacity={0.06}
+                        speedMin={0.4}
+                        speedMax={1.2}
+                        speedScale={0.8}
+                      />
+                    </div>
+                    <div className="relative z-10">
+                      <h5 className="font-semibold text-cosmic-light mb-2">
+                        {item.title}
+                      </h5>
+                      <p className="text-sm text-cosmic-light/70">
+                        {item.description}
+                      </p>
+                    </div>
+                  </GlassCard>
                 ))}
               </div>
 

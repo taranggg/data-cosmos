@@ -10,11 +10,13 @@ export const CardSpotlight = ({
   radius = 350,
   color = "#262626",
   className,
+  disableOverlay = false,
   ...props
 }: {
   radius?: number;
   color?: string;
   children: React.ReactNode;
+  disableOverlay?: boolean;
 } & React.HTMLAttributes<HTMLDivElement>) => {
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
@@ -43,31 +45,33 @@ export const CardSpotlight = ({
       onMouseLeave={handleMouseLeave}
       {...props}
     >
-      <motion.div
-        className="pointer-events-none absolute z-0 -inset-px rounded-md opacity-0 transition duration-300 group-hover/spotlight:opacity-100"
-        style={{
-          backgroundColor: color,
-          maskImage: useMotionTemplate`
-            radial-gradient(
-              ${radius}px circle at ${mouseX}px ${mouseY}px,
-              white,
-              transparent 80%
-            )
-          `,
-        }}
-      >
-        {isHovering && (
-          <CanvasRevealEffect
-            animationSpeed={5}
-            containerClassName="bg-transparent absolute inset-0 pointer-events-none"
-            colors={[
-              [59, 130, 246],
-              [139, 92, 246],
-            ]}
-            dotSize={3}
-          />
-        )}
-      </motion.div>
+      {!disableOverlay && (
+        <motion.div
+          className="pointer-events-none absolute z-0 -inset-px rounded-md opacity-0 transition duration-300 group-hover/spotlight:opacity-100"
+          style={{
+            backgroundColor: color,
+            maskImage: useMotionTemplate`
+              radial-gradient(
+                ${radius}px circle at ${mouseX}px ${mouseY}px,
+                white,
+                transparent 80%
+              )
+            `,
+          }}
+        >
+          {isHovering && (
+            <CanvasRevealEffect
+              animationSpeed={5}
+              containerClassName="bg-transparent absolute inset-0 pointer-events-none"
+              colors={[
+                [59, 130, 246],
+                [139, 92, 246],
+              ]}
+              dotSize={3}
+            />
+          )}
+        </motion.div>
+      )}
       {/* keep animated overlay behind content by giving content its own stacking context */}
       <div className="relative z-20">{children}</div>
     </div>
