@@ -13,6 +13,7 @@ export default function HeroSection() {
       ref={ref}
       className="relative h-screen w-full overflow-hidden bg-transparent"
     >
+      {/* Globe moved to Contact section */}
       <div className="relative z-10 h-full flex items-center justify-center px-6">
         <div className="max-w-6xl mx-auto text-center">
           <motion.div
