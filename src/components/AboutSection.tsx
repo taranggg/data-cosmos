@@ -80,15 +80,43 @@ export default function AboutSection() {
               </div>
 
               <h2 className="text-4xl md:text-5xl font-heading font-bold text-cosmic-light mb-4 leading-tight">
-                We Build a{" "}
-                <span className="text-gradient">Cohesive Data Ecosystem</span>
+                Data Engineering Solutions.
               </h2>
 
               <p className="text-lg text-cosmic-light/80 mb-6 leading-relaxed">
-                Transforming raw data into actionable insights with a focus on
-                engineering rigor, product thinking, and secure cloud-first
-                architectures.
+                We offer a diverse range of services designed to help you
+                harness the power of data and drive business success. We provide
+                tailored Data Engineering solutions to help you efficiently
+                manage, process, and analyze your data for better
+                decision-making and insights.
               </p>
+
+              <ul className="mb-6 space-y-4">
+                <li className="flex items-start gap-4">
+                  <span className="mt-1 w-3 h-3 rotate-45 rounded-sm bg-gradient-to-br from-cosmic-violet to-cosmic-cyan flex-shrink-0" />
+                  <span className="text-base text-cosmic-light/90 font-medium">
+                    Data governance & source integration
+                  </span>
+                </li>
+                <li className="flex items-start gap-4">
+                  <span className="mt-1 w-3 h-3 rotate-45 rounded-sm bg-gradient-to-br from-cosmic-amber to-cosmic-violet flex-shrink-0" />
+                  <span className="text-base text-cosmic-light/90 font-medium">
+                    Scalable pipelines & efficient data flow
+                  </span>
+                </li>
+                <li className="flex items-start gap-4">
+                  <span className="mt-1 w-3 h-3 rotate-45 rounded-sm bg-gradient-to-br from-cosmic-cyan to-cosmic-green flex-shrink-0" />
+                  <span className="text-base text-cosmic-light/90 font-medium">
+                    Infrastructure, tooling & data operations
+                  </span>
+                </li>
+                <li className="flex items-start gap-4">
+                  <span className="mt-1 w-3 h-3 rotate-45 rounded-sm bg-gradient-to-br from-cosmic-violet to-cosmic-cyan flex-shrink-0" />
+                  <span className="text-base text-cosmic-light/90 font-medium">
+                    Analytics, visualization & actionable insights
+                  </span>
+                </li>
+              </ul>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
                 {values.map((value, i) => (
@@ -138,7 +166,7 @@ export default function AboutSection() {
                   </Tooltip>
                 ))}
               </div>
-
+              {/* 
               <div className="flex gap-4 items-center">
                 <motion.div
                   whileHover={{ scale: 1.02 }}
@@ -158,7 +186,7 @@ export default function AboutSection() {
                     <span>Work with us</span>
                   </HoverBorderGradient>
                 </motion.div>
-              </div>
+              </div> */}
             </motion.div>
           </div>
 
