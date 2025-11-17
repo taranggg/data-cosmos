@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useMemo } from "react";
 import { Color, Scene, Fog, PerspectiveCamera, Vector3, Group } from "three";
 import ThreeGlobe from "three-globe";
 import { useThree, Canvas, extend } from "@react-three/fiber";
@@ -73,29 +73,34 @@ export function Globe({ globeConfig, data }: WorldProps) {
   const groupRef = useRef<Group | null>(null);
   const [isInitialized, setIsInitialized] = useState(false);
 
-  const defaultProps = {
-    pointSize: 1,
-    atmosphereColor: "#ffffff",
-    showAtmosphere: true,
-    atmosphereAltitude: 0.1,
-    polygonColor: "rgba(255,255,255,0.7)",
-    globeColor: "#1d072e",
-    emissive: "#000000",
-    emissiveIntensity: 0.1,
-    shininess: 0.9,
-    arcTime: 2000,
-    arcLength: 0.9,
-    rings: 1,
-    maxRings: 3,
-    ...globeConfig,
-  };
+  const defaultProps = useMemo(
+    () => ({
+      pointSize: 1,
+      atmosphereColor: "#ffffff",
+      showAtmosphere: true,
+      atmosphereAltitude: 0.1,
+      polygonColor: "rgba(255,255,255,0.7)",
+      globeColor: "#1d072e",
+      emissive: "#000000",
+      emissiveIntensity: 0.1,
+      shininess: 0.9,
+      arcTime: 2000,
+      arcLength: 0.9,
+      rings: 1,
+      maxRings: 3,
+      ...globeConfig,
+    }),
+    [globeConfig]
+  );
 
   // Initialize globe only once
   useEffect(() => {
     if (!globeRef.current && groupRef.current) {
       globeRef.current = new ThreeGlobe();
-      (groupRef.current as Group).add(globeRef.current as any);
-      setIsInitialized(true);
+      // add the ThreeGlobe object to the group (cast via unknown to avoid 'any')
+      (groupRef.current as Group).add(globeRef.current as unknown as Group);
+      // schedule state update asynchronously to avoid synchronous cascading renders
+      Promise.resolve().then(() => setIsInitialized(true));
     }
   }, []);
 
@@ -163,24 +168,25 @@ export function Globe({ globeConfig, data }: WorldProps) {
       .atmosphereAltitude(defaultProps.atmosphereAltitude)
       .hexPolygonColor(() => defaultProps.polygonColor);
 
-    const globe: any = globeRef.current;
+    const globe: ThreeGlobe = globeRef.current as ThreeGlobe;
     globe
       .arcsData(data)
-      .arcStartLat((d: any) => d.startLat * 1)
-      .arcStartLng((d: any) => d.startLng * 1)
-      .arcEndLat((d: any) => d.endLat * 1)
-      .arcEndLng((d: any) => d.endLng * 1)
-      .arcColor((e: any) => e.color)
-      .arcAltitude((e: any) => e.arcAlt * 1)
-      .arcStroke(() => [0.32, 0.28, 0.3][Math.round(Math.random() * 2)])
+      .arcStartLat((d: object) => (d as Position).startLat * 1)
+      .arcStartLng((d: object) => (d as Position).startLng * 1)
+      .arcEndLat((d: object) => (d as Position).endLat * 1)
+      .arcEndLng((d: object) => (d as Position).endLng * 1)
+      .arcColor((e: object) => (e as Position).color)
+      .arcAltitude((e: object) => (e as Position).arcAlt * 1)
+      // Use a stable stroke value to avoid runtime randomness and lint noise
+      .arcStroke(() => 0.3)
       .arcDashLength(defaultProps.arcLength)
-      .arcDashInitialGap((e: any) => e.order * 1)
+      .arcDashInitialGap((e: object) => (e as Position).order * 1)
       .arcDashGap(15)
       .arcDashAnimateTime(() => defaultProps.arcTime);
 
     globeRef.current
       .pointsData(filteredPoints)
-      .pointColor((e) => (e as { color: string }).color)
+      .pointColor((e: object) => (e as Point).color)
       .pointsMerge(true)
       .pointAltitude(0.0)
       .pointRadius(defaultProps.pointSize || 2);
@@ -306,8 +312,12 @@ export function hexToRgb(hex: string) {
     : null;
 }
 
-export function genRandomNumbers(min: number, max: number, count: number) {
-  const arr = [];
+export function genRandomNumbers(
+  min: number,
+  max: number,
+  count: number
+): number[] {
+  const arr: number[] = [];
   while (arr.length < count) {
     const r = Math.floor(Math.random() * (max - min)) + min;
     if (arr.indexOf(r) === -1) arr.push(r);
