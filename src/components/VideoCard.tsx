@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Play, Pause } from "lucide-react";
 import VideoModal from "./VideoModal";
@@ -23,6 +23,19 @@ export default function VideoCard({
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  useEffect(() => {
+    const handler = (e: CustomEvent) => {
+      if (videoRef.current && e.detail !== videoRef.current) {
+        videoRef.current.pause();
+      }
+    };
+    window.addEventListener("pauseAllVideos", handler as EventListener);
+    return () => {
+      window.removeEventListener("pauseAllVideos", handler as EventListener);
+    };
+  }, []);
 
   return (
     <>
@@ -53,21 +66,27 @@ export default function VideoCard({
 
           {/* Video element (plays on hover) - keep it but allow poster/background to show when not playing */}
           <video
+            ref={videoRef}
             poster={posterSrc}
             muted
             loop
             playsInline
             className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105 relative z-10"
-            onPlay={() => setIsPlaying(true)}
+            onPlay={() => {
+              setIsPlaying(true);
+              window.dispatchEvent(
+                new CustomEvent("pauseAllVideos", { detail: videoRef.current })
+              );
+            }}
             onPause={() => setIsPlaying(false)}
             onMouseEnter={(e) => e.currentTarget.play()}
-            onMouseLeave={(e) => {
-              const videoElement = e.currentTarget;
-              if (videoElement && !videoElement.paused) {
-                videoElement.pause();
-                videoElement.currentTime = 0;
-              }
-            }}
+            // onMouseLeave={(e) => {
+            //   const videoElement = e.currentTarget;
+            //   if (videoElement && !videoElement.paused) {
+            //     videoElement.pause();
+            //     videoElement.currentTime = 0;
+            //   }
+            // }}
           >
             <source src={videoSrc} type="video/mp4" />
           </video>
@@ -82,12 +101,12 @@ export default function VideoCard({
                 transition={{ duration: 0.2 }}
                 className="absolute inset-0 flex items-center justify-center z-20 pointer-events-none"
               >
-                <button
+                <div
                   aria-label={`Play ${title}`}
-                  className="pointer-events-auto w-20 h-20 rounded-full bg-white/8 backdrop-blur-md border border-white/10 flex items-center justify-center transition-transform duration-200 hover:scale-105"
+                  className="w-20 h-20 rounded-full bg-white/8 backdrop-blur-md border border-white/10 flex items-center justify-center transition-transform duration-200 hover:scale-105"
                 >
                   <Play className="w-7 h-7 text-black ml-0.5" />
-                </button>
+                </div>
               </motion.div>
             )}
             {isPlaying && isHovered && (
@@ -98,12 +117,12 @@ export default function VideoCard({
                 transition={{ duration: 0.2 }}
                 className="absolute inset-0 flex items-center justify-center z-20 pointer-events-none"
               >
-                <button
+                <div
                   aria-label={`Pause ${title}`}
-                  className="pointer-events-auto w-20 h-20 rounded-full bg-white/8 backdrop-blur-md border border-white/10 flex items-center justify-center transition-transform duration-200 hover:scale-105"
+                  className="w-20 h-20 rounded-full bg-white/8 backdrop-blur-md border border-white/10 flex items-center justify-center transition-transform duration-200 hover:scale-105"
                 >
                   <Pause className="w-7 h-7 text-black" />
-                </button>
+                </div>
               </motion.div>
             )}
           </AnimatePresence>
