@@ -1,33 +1,91 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Data Cosmos
 
-## Getting Started
+## How to Fork & Run Locally
 
-First, run the development server:
+1. **Fork this repository** on GitHub to your own account.
+2. **Clone your fork** to your local machine:
+   ```bash
+   git clone https://github.com/<your-username>/data-cosmos.git
+   cd data-cosmos
+   ```
+3. **Install dependencies**:
+   ```bash
+   npm install
+   # or
+   yarn install
+   # or
+   pnpm install
+   # or
+   bun install
+   ```
+4. **Run the development server**:
+   ```bash
+   npm run dev
+   # or
+   yarn dev
+   # or
+   pnpm dev
+   # or
+   bun dev
+   ```
+5. **Open [http://localhost:3000](http://localhost:3000)** in your browser to view the app.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+---
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Project Overview
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Data Cosmos is a modern Next.js web application designed to showcase data products, platforms, and interactive video demos. It features:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- **Next.js 16 (App Router)** for fast, scalable React development
+- **Tailwind CSS** for utility-first, responsive styling
+- **Framer Motion** for smooth animations and interactive effects
+- **Lucide React Icons** for beautiful iconography
+- **Glassmorphism UI** for cards, video overlays, and modals
+- **Product Section** with expandable cards and detail views
+- **Video Spotlight Section** with focus cards, hover-to-play, and modal playback
+- **Footer** with smooth-scroll navigation, company info, and logo
+- **Custom hooks** for mobile detection, toasts, and outside click handling
+- **Reusable UI components** (buttons, tooltips, ripple effects, etc.)
+- **Asset management** for videos and thumbnails in the `public/` directory
+
+## File Structure
+
+- `src/app/` — Main app entry, global styles, assets
+- `src/components/` — All React components (Footer, Navigation, ProductsSection, VideoCard, etc.)
+- `src/components/ui/` — UI primitives and effects
+- `src/components/hooks/` — Custom React hooks
+- `src/components/lib/` — Utility functions
+- `public/` — Static assets (videos, images, thumbnails)
+
+## Key Features
+
+- **Product Cards**: Expandable, animated cards for each product/platform
+- **Video Cards**: Hover to play, modal for focused viewing, only one video plays at a time
+- **Responsive Design**: Works on desktop and mobile
+- **Smooth Scroll Navigation**: Footer and navbar links scroll to sections with highlight
+- **Glassmorphism Effects**: Used throughout for modern look
+- **Accessibility**: Focus management and keyboard navigation
+
+## Customization
+
+- Add new products in `ProductsSection.tsx`
+- Add new videos in `VideoSpotlightSection.tsx` and place assets in `public/videos/`
+- Update branding/logo in `Footer.tsx` and `Navigation.tsx`
+- Tweak styles via Tailwind classes in component files
+
+## Technologies Used
+
+- [Next.js](https://nextjs.org)
+- [Tailwind CSS](https://tailwindcss.com)
+- [Framer Motion](https://www.framer.com/motion/)
+- [Lucide React](https://lucide.dev/)
 
 ## Learn More
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- [Next.js Documentation](https://nextjs.org/docs)
+- [Learn Next.js](https://nextjs.org/learn)
+- [Tailwind CSS Docs](https://tailwindcss.com/docs)
+- [Framer Motion Docs](https://www.framer.com/motion/)
 
 ## Deploy on Vercel
 
