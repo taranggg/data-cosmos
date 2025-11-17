@@ -5,10 +5,12 @@ import { motion } from "framer-motion";
 import SectionTitle from "./SectionTitle";
 import { GlobeDemo } from "./GlobeDemo";
 import { Mail, Phone, MapPin, Send } from "lucide-react";
+import { HoverBorderGradient } from "./ui/hover-border-gradient";
 
 export default function ContactSection() {
   const [formData, setFormData] = useState({
     name: "",
+    subject: "",
     email: "",
     phone: "",
     company: "",
@@ -22,15 +24,31 @@ export default function ContactSection() {
     e.preventDefault();
     setIsSubmitting(true);
 
-    // Simulate form submission - replace with actual API call
-    await new Promise((resolve) => setTimeout(resolve, 1500));
+    // Build mailto link and open user's mail client
+    const subject = formData.subject || "Contact Form Submission";
+    const body = `Name: ${formData.name}\ncontact: ${formData.phone}\nMessage: ${formData.message}`;
 
+    const mailto = `mailto:hello@datacosmos.in?subject=${encodeURIComponent(
+      subject
+    )}&body=${encodeURIComponent(body)}`;
+
+    // Open mail client
+    window.location.href = mailto;
+
+    // Update UI to show submitted state (actual sending happens in mail client)
     setIsSubmitting(false);
     setSubmitted(true);
 
     // Reset form after 3 seconds
     setTimeout(() => {
-      setFormData({ name: "", email: "", phone: "", company: "", message: "" });
+      setFormData({
+        name: "",
+        subject: "",
+        email: "",
+        phone: "",
+        company: "",
+        message: "",
+      });
       setSubmitted(false);
     }, 3000);
   };
@@ -67,16 +85,14 @@ export default function ContactSection() {
 
   return (
     <section id="contact" className="py-32 px-6 relative overflow-hidden">
-      {/* Background Effect */}
-      <div className="absolute inset-0 cosmic-bg" />
+      <div className="absolute inset-0 " />
 
       <div className="relative z-10 max-w-7xl mx-auto">
         <SectionTitle subtitle="Let's start a conversation about your data needs">
-          Get In Touch With Us
+          Get In Touch With Us.
         </SectionTitle>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-          {/* Left Side - Globe visual (demo instance) */}
           <motion.div
             initial={{ opacity: 0, x: -30 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -88,7 +104,6 @@ export default function ContactSection() {
             </div>
           </motion.div>
 
-          {/* Right Side - Contact Form (glass morphism) */}
           <motion.div
             initial={{ opacity: 0, x: 30 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -129,7 +144,7 @@ export default function ContactSection() {
                         id="name"
                         name="name"
                         required
-                        value={formData.name}
+                        value={formData.name ?? ""}
                         onChange={handleChange}
                         className="w-full px-4 py-3 rounded-xl bg-cosmic-darker border border-white/10 text-cosmic-light placeholder-cosmic-light/40 focus:border-cosmic-violet focus:outline-none transition-colors"
                         placeholder="John Doe"
@@ -148,12 +163,31 @@ export default function ContactSection() {
                         id="email"
                         name="email"
                         required
-                        value={formData.email}
+                        value={formData.email ?? ""}
                         onChange={handleChange}
                         className="w-full px-4 py-3 rounded-xl bg-cosmic-darker border border-white/10 text-cosmic-light placeholder-cosmic-light/40 focus:border-cosmic-violet focus:outline-none transition-colors"
                         placeholder="john@company.com"
                       />
                     </div>
+                  </div>
+
+                  <div>
+                    <label
+                      htmlFor="subject"
+                      className="block text-sm font-heading font-semibold text-cosmic-light mb-2"
+                    >
+                      Subject *
+                    </label>
+                    <input
+                      type="text"
+                      id="subject"
+                      name="subject"
+                      required
+                      value={formData.subject ?? ""}
+                      onChange={handleChange}
+                      className="w-full px-4 py-3 rounded-xl bg-cosmic-darker border border-white/10 text-cosmic-light placeholder-cosmic-light/40 focus:border-cosmic-violet focus:outline-none transition-colors"
+                      placeholder="What is this about?"
+                    />
                   </div>
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
@@ -168,7 +202,7 @@ export default function ContactSection() {
                         type="tel"
                         id="phone"
                         name="phone"
-                        value={formData.phone}
+                        value={formData.phone ?? ""}
                         onChange={handleChange}
                         className="w-full px-4 py-3 rounded-xl bg-cosmic-darker border border-white/10 text-cosmic-light placeholder-cosmic-light/40 focus:border-cosmic-violet focus:outline-none transition-colors"
                         placeholder="+1 (555) 000-0000"
@@ -186,7 +220,7 @@ export default function ContactSection() {
                         type="text"
                         id="company"
                         name="company"
-                        value={formData.company}
+                        value={formData.company ?? ""}
                         onChange={handleChange}
                         className="w-full px-4 py-3 rounded-xl bg-cosmic-darker border border-white/10 text-cosmic-light placeholder-cosmic-light/40 focus:border-cosmic-violet focus:outline-none transition-colors"
                         placeholder="Your Company"
@@ -205,7 +239,7 @@ export default function ContactSection() {
                       id="message"
                       name="message"
                       required
-                      value={formData.message}
+                      value={formData.message ?? ""}
                       onChange={handleChange}
                       rows={5}
                       className="w-full px-4 py-3 rounded-xl bg-cosmic-darker border border-white/10 text-cosmic-light placeholder-cosmic-light/40 focus:border-cosmic-violet focus:outline-none transition-colors resize-none"
@@ -213,31 +247,45 @@ export default function ContactSection() {
                     />
                   </div>
 
-                  <button
-                    type="submit"
-                    disabled={isSubmitting}
-                    className="w-full px-8 py-4 rounded-2xl font-heading font-semibold text-base transition-all duration-300 relative overflow-hidden cursor-pointer bg-gradient-to-r from-[#7c3aed] to-[#06b6d4] text-white hover:shadow-[0_0_30px_rgba(124,58,237,0.5)] disabled:opacity-50 disabled:cursor-not-allowed"
+                  <motion.div
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                    transition={{
+                      type: "spring",
+                      stiffness: 400,
+                      damping: 17,
+                    }}
                   >
-                    {isSubmitting ? (
-                      <span className="flex items-center justify-center gap-2">
-                        <motion.div
-                          animate={{ rotate: 360 }}
-                          transition={{
-                            duration: 1,
-                            repeat: Infinity,
-                            ease: "linear",
-                          }}
-                          className="w-5 h-5 border-2 border-white border-t-transparent rounded-full"
-                        />
-                        Sending...
-                      </span>
-                    ) : (
-                      <span className="flex items-center justify-center gap-2">
-                        <Send className="w-5 h-5" />
-                        Send Message
-                      </span>
-                    )}
-                  </button>
+                    <HoverBorderGradient
+                      as="button"
+                      type="submit"
+                      disabled={isSubmitting}
+                      containerClassName="inline-block w-full group/cta"
+                      className={`text-sm font-semibold text-white px-6 py-3.5 w-full text-center shadow-lg shadow-cosmic-violet/20 flex items-center justify-center gap-2 relative transition-all duration-300 ${
+                        isSubmitting ? "opacity-50 cursor-not-allowed" : ""
+                      }`}
+                    >
+                      {isSubmitting ? (
+                        <span className="flex items-center justify-center gap-2">
+                          <motion.div
+                            animate={{ rotate: 360 }}
+                            transition={{
+                              duration: 1,
+                              repeat: Infinity,
+                              ease: "linear",
+                            }}
+                            className="w-5 h-5 border-2 border-white border-t-transparent rounded-full"
+                          />
+                          Sending...
+                        </span>
+                      ) : (
+                        <span className="flex items-center justify-center gap-2">
+                          <Send className="w-5 h-5" />
+                          Send Message
+                        </span>
+                      )}
+                    </HoverBorderGradient>
+                  </motion.div>
                 </form>
               )}
             </div>
@@ -247,9 +295,3 @@ export default function ContactSection() {
     </section>
   );
 }
-
-/*
-  Notes/TODO:
-  - The form currently simulates submission. Replace the simulated block in handleSubmit with a real API POST to your contact endpoint (e.g. /api/contact) and handle errors.
-  - Optionally integrate a booking link (Calendly) for the "Book a call" CTA.
-*/
