@@ -137,60 +137,72 @@ export default function ProductsSection() {
 
   const ProductsGrid = ({ items }: { items: Product[] }) => (
     <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-      {items.map((product, index) => (
-        <GlassCard
-          key={index}
-          className="p-8 h-full rounded-3xl flex flex-col relative"
-        >
-          <div className="absolute inset-0 rounded-3xl overflow-hidden z-0 pointer-events-none">
-            <DottedGlowBackground
-              gap={12}
-              radius={2}
-              color="rgba(124, 58, 237, 0.3)"
-              glowColor="rgba(124, 58, 237, 0.9)"
-              opacity={0.8}
-              backgroundOpacity={0.1}
-              speedMin={0.4}
-              speedMax={1.2}
-              speedScale={0.8}
-            />
-          </div>
+      {items.map((product, index) => {
+        const slug = product.slug
+          ? product.slug
+          : product.name
+              .toLowerCase()
+              .replace(/[^a-z0-9]+/g, "-")
+              .replace(/(^-|-$)/g, "");
 
-          <div className="flex flex-col">
-            <div className="min-h-[4.5rem]">
-              <h3 className="text-3xl font-heading font-bold text-cosmic-light mb-3">
-                {product.name}
-              </h3>
+        return (
+          <GlassCard
+            key={index}
+            id={`product-preview-${slug}`}
+            className="p-8 h-full rounded-3xl flex flex-col relative"
+          >
+            <div className="absolute inset-0 rounded-3xl overflow-hidden z-0 pointer-events-none">
+              <DottedGlowBackground
+                gap={12}
+                radius={2}
+                color="rgba(124, 58, 237, 0.3)"
+                glowColor="rgba(124, 58, 237, 0.9)"
+                opacity={0.8}
+                backgroundOpacity={0.1}
+                speedMin={0.4}
+                speedMax={1.2}
+                speedScale={0.8}
+              />
             </div>
-            <div className="min-h-[2.25rem] mb-6">
-              <p className="text-lg text-cosmic-light/80">{product.tagline}</p>
-            </div>
-          </div>
 
-          <ul className="space-y-3 mb-8">
-            {product.features.map((feature, i) => (
-              <motion.li
-                key={i}
-                initial={{ opacity: 0, x: -10 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.2 + i * 0.1 }}
-                className="flex items-start gap-3 text-cosmic-light/70"
-              >
-                <div className="w-5 h-5 rounded-full bg-cosmic-violet/20 flex items-center justify-center mt-0.5 flex-shrink-0">
-                  <Check className="w-3 h-3 text-cosmic-violet" />
-                </div>
-                <span>{feature}</span>
-              </motion.li>
-            ))}
-          </ul>
-        </GlassCard>
-      ))}
+            <div className="flex flex-col">
+              <div className="min-h-[4.5rem]">
+                <h3 className="text-3xl font-heading font-bold text-cosmic-light mb-3">
+                  {product.name}
+                </h3>
+              </div>
+              <div className="min-h-[2.25rem] mb-6">
+                <p className="text-lg text-cosmic-light/80">
+                  {product.tagline}
+                </p>
+              </div>
+            </div>
+
+            <ul className="space-y-3 mb-8">
+              {product.features.map((feature, i) => (
+                <motion.li
+                  key={i}
+                  initial={{ opacity: 0, x: -10 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: index * 0.2 + i * 0.1 }}
+                  className="flex items-start gap-3 text-cosmic-light/70"
+                >
+                  <div className="w-5 h-5 rounded-full bg-cosmic-violet/20 flex items-center justify-center mt-0.5 flex-shrink-0">
+                    <Check className="w-3 h-3 text-cosmic-violet" />
+                  </div>
+                  <span>{feature}</span>
+                </motion.li>
+              ))}
+            </ul>
+          </GlassCard>
+        );
+      })}
     </div>
   );
 
   const SwaySalesDetails = () => (
-    <GlassCard className="p-8">
+    <GlassCard id={"product-swaysales"} className="p-8">
       <h3 className="text-2xl font-heading font-bold text-cosmic-light mb-4">
         SwaySales.ai
       </h3>
@@ -362,7 +374,7 @@ export default function ProductsSection() {
   );
 
   const SwayAnalyticsDetails = () => (
-    <GlassCard className="p-8 h-full flex flex-col">
+    <GlassCard id={"product-swayanalytic"} className="p-8 h-full flex flex-col">
       <h3 className="text-2xl font-heading font-bold text-cosmic-light mb-4">
         SwayAnalytics.ai
       </h3>
@@ -615,7 +627,7 @@ export default function ProductsSection() {
   );
 
   const DataPlatformAndEngineering = () => (
-    <GlassCard className="p-8">
+    <GlassCard id={"product-data-engineering-platform"} className="p-8">
       <h3 className="text-2xl font-heading font-bold text-cosmic-light mb-4">
         Data Platform & Engineering Services
       </h3>

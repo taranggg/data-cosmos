@@ -143,7 +143,7 @@ const PricingSection: React.FC = () => {
   }, []);
 
   return (
-    <section className="py-32 px-6 relative overflow-hidden">
+    <section id="pricing" className="py-32 px-6 relative overflow-hidden">
       <div className="absolute inset-0 cosmic-bg" />
 
       <div className="relative z-10 max-w-7xl mx-auto">

@@ -3,7 +3,7 @@
 import { ReactNode } from "react";
 import { motion } from "framer-motion";
 
-interface GlassCardProps {
+interface GlassCardProps extends React.HTMLAttributes<HTMLDivElement> {
   children: ReactNode;
   className?: string;
   hover?: boolean;
@@ -19,6 +19,7 @@ export default function GlassCard({
   delay = 0,
   style,
   animate = true,
+  ...rest
 }: GlassCardProps) {
   const baseClass = `glass-card rounded-3xl p-8 backdrop-blur-md bg-white/4 border border-white/8 ${
     hover ? "glass-card-hover" : ""
@@ -33,6 +34,7 @@ export default function GlassCard({
         transition={{ duration: 0.6, delay }}
         style={style}
         className={baseClass}
+        {...rest}
       >
         {children}
       </motion.div>
@@ -40,7 +42,7 @@ export default function GlassCard({
   }
 
   return (
-    <div style={style} className={baseClass}>
+    <div style={style} className={baseClass} {...rest}>
       {children}
     </div>
   );
