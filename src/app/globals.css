@@ -12,6 +12,8 @@
   --color-cosmic-cyan: #22D3EE;
   --color-cosmic-violet-glow: #7C3AEDAA;
   --color-cosmic-cyan-glow: #22D3EEAA;
+  --color-cosmic-amber: #f59e0b;
+  --color-cosmic-green: #10b981;
   
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -189,6 +191,12 @@
               radial-gradient(ellipse at bottom, rgba(34, 211, 238, 0.15) 0%, transparent 50%),
               #0B0F14;
 }
+
+/* Additional cosmic color utilities */
+.text-cosmic-amber { color: var(--color-cosmic-amber); }
+.bg-cosmic-amber { background-color: var(--color-cosmic-amber); }
+.text-cosmic-green { color: var(--color-cosmic-green); }
+.bg-cosmic-green { background-color: var(--color-cosmic-green); }
 
 /* Text Gradient */
 .hero-heading {
