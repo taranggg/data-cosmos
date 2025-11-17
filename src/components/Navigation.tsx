@@ -140,7 +140,7 @@ export default function Navigation() {
         <div className="md:hidden relative">
           <HamburgerMenuOverlay
             items={menuItems}
-            buttonTop="20px"
+            buttonTop="30px"
             buttonLeft="calc(100% - 40px)"
             buttonSize="md"
             overlayBackground="rgba(10,11,13,0.96)"
