@@ -52,6 +52,10 @@
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
+
+  /* Meteors animation variable (from Aceternity Meteors docs) */
+  /* Raised default duration so meteors appear slower */
+  --animate-meteor-effect: meteor 12s linear infinite;
 }
 
 :root {
@@ -273,5 +277,38 @@ body {
 }
 ::-webkit-scrollbar-thumb {
   background: transparent;
+}
+
+/* Use Aceternity Meteors animation so Tailwind v4 setups work */
+@keyframes meteor {
+  0% {
+    transform: rotate(215deg) translateX(0);
+    opacity: 1;
+  }
+  70% {
+    opacity: 1;
+  }
+  100% {
+    transform: rotate(215deg) translateX(-500px);
+    opacity: 0;
+  }
+}
+
+.animate-meteor-effect {
+  animation: var(--animate-meteor-effect);
+  will-change: transform, opacity;
+}
+
+.animate-meteor-effect::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 120%;
+  height: 1px;
+  width: 60px;
+  transform: translateY(-50%);
+  background: linear-gradient(90deg, rgba(255,255,255,0.6), rgba(255,255,255,0.02));
+  opacity: 0.9;
+  pointer-events: none;
 }
 

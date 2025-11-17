@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import { useEffect, useRef } from "react";
+import { Meteors } from "./ui/meteors";
 
 export default function ClientsSection() {
   const clients = [
@@ -75,13 +76,16 @@ export default function ClientsSection() {
                 viewport={{ once: true }}
                 transition={{ delay: (index % clients.length) * 0.04 }}
                 whileHover={{ scale: 1.02 }}
-                className="flex-shrink-0 w-48 md:w-56 lg:w-64 h-28 md:h-32 rounded-xl relative backdrop-blur-md border border-white/6 shadow-[0_8px_30px_rgba(0,0,0,0.45)] flex items-center justify-center"
+                className="flex-shrink-0 w-48 md:w-56 lg:w-64 h-28 md:h-32 rounded-xl relative z-10 backdrop-blur-md border border-white/6 shadow-[0_8px_30px_rgba(0,0,0,0.45)] flex items-center justify-center overflow-hidden"
                 style={{
                   background:
                     "linear-gradient(135deg, rgba(124,58,237,0.12), rgba(6,182,212,0.08))",
                 }}
               >
-                <div className="absolute inset-0 rounded-xl pointer-events-none" />
+                <div className="absolute inset-0 rounded-xl pointer-events-none z-0 overflow-hidden bg-gradient-to-br from-[rgba(124,58,237,0.06)] to-transparent">
+                  <Meteors number={8} className="opacity-40" />
+                </div>
+
                 <div className="flex items-center justify-center px-4 text-center">
                   <div className="font-heading text-lg md:text-xl text-cosmic-light/90 transition-colors duration-200">
                     {client}

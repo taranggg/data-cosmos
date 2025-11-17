@@ -4,6 +4,7 @@ import React, { useEffect, useRef } from "react";
 import SectionTitle from "./SectionTitle";
 import GlassCard from "./GlassCard";
 import { DottedGlowBackground } from "./ui/dotted-glow-background";
+import { Meteors } from "./ui/meteors";
 import { Check } from "lucide-react";
 
 const PricingSection: React.FC = () => {
@@ -217,8 +218,15 @@ const PricingSection: React.FC = () => {
           >
             {/* Render sequence twice for seamless loop */}
             {[...carouselItems, ...carouselItems].map((item, idx) => (
-              <GlassCard key={idx} className="w-80 p-6 flex-shrink-0">
-                <div className="flex flex-col gap-3">
+              <GlassCard
+                key={idx}
+                className="w-80 p-6 flex-shrink-0 relative overflow-hidden"
+              >
+                <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden bg-gradient-to-br from-[rgba(255, 12, 12, 0.06)] to-transparent">
+                  <Meteors number={12} className="opacity-20" />
+                </div>
+
+                <div className="relative z-10 flex flex-col gap-3">
                   {item.stat && (
                     <div className="flex flex-col">
                       <span className="text-2xl font-heading font-semibold text-gradient leading-tight">
