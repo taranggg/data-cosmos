@@ -5,7 +5,7 @@ import { Check, ArrowRight, Play } from "lucide-react";
 import Button from "@/components/Button";
 import GlassCard from "@/components/GlassCard";
 import SectionTitle from "@/components/SectionTitle";
-import CTASection from "@/components/CTASection";
+// import CTASection from "@/components/CTASection";
 import Footer from "@/components/Footer";
 import CosmicBackground from "@/components/CosmicBackground";
 
@@ -189,7 +189,7 @@ export default function ProductPageTemplate({
         </section>
 
         {/* CTA Section */}
-        <CTASection />
+        {/* <CTASection /> */}
 
         {/* Footer */}
         <Footer />
